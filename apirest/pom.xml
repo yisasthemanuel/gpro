@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.jlobato.gpro</groupId>
   <artifactId>gpro-apirest</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
   <name>GPRO API RESTFul</name>
   <description>GPRO API RESTFul</description>
   

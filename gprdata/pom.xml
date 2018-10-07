@@ -4,7 +4,7 @@
   <groupId>org.jlobato.gpro</groupId>
   <artifactId>gprdata</artifactId>
   <packaging>war</packaging>
-  <version>0.0.3-SNAPSHOT</version>
+  <version>0.0.1</version>
   <name>GPRO Data Webapp</name>
   <url>http://gprodata.yisasthemanuel.org</url>
   <dependencies>
