@@ -1,5 +1,8 @@
 package org.jlobato.gpro.utils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import org.joda.time.Period;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
@@ -81,5 +84,24 @@ public class GPROUtils {
 	 * 
 	 */
 	public static int[] TIME_FACTORS = {1000, 60 * 1000, 60 * 60 * 1000};
+
+	/**
+	 * 
+	 * @param numero
+	 * @param decimales
+	 * @return
+	 */
+	public static double redondeo(double numero, int decimales) {
+		double result = 0.0;
+		try {
+			String valor = Double.toString(numero);
+			BigDecimal big = new BigDecimal(valor);
+			big = big.setScale(decimales, RoundingMode.HALF_UP);
+			result = big.doubleValue();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 }
