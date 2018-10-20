@@ -202,34 +202,36 @@
             <directory>src/main/resources</directory>
         </resource>
     </resources>
-    <plugins>
-    	<plugin>
-    		<groupId>org.mybatis.generator</groupId>
-    		<artifactId>mybatis-generator-maven-plugin</artifactId>
-    		<version>1.3.5</version>
-    		<configuration>
-    			<verbose>true</verbose>
-			    <!-- Para configurar el plugin de mybatis generator y que sobreescriba las clases que se generan -->
-    			<overwrite>true</overwrite>
-    		</configuration>
-    		<dependencies>
-    			<dependency>
-    				<groupId>org.postgresql</groupId>
-					<artifactId>postgresql</artifactId>
-					<version>9.4-1203-jdbc4</version>
-    			</dependency>
-    		</dependencies>
-    		<executions>
-    			<execution>
-    				<id>Generate MyBatis Artifacts</id>
-    				<phase>validate</phase>
-    				<goals>
-    					<goal>generate</goal>
-    				</goals>
-    			</execution>
-    		</executions>
-    	</plugin>
-    </plugins>
+   	<pluginManagement>
+    	<plugins>
+	    	<plugin>
+	    		<groupId>org.mybatis.generator</groupId>
+	    		<artifactId>mybatis-generator-maven-plugin</artifactId>
+	    		<version>1.3.5</version>
+	    		<configuration>
+	    			<verbose>true</verbose>
+				    <!-- Para configurar el plugin de mybatis generator y que sobreescriba las clases que se generan -->
+	    			<overwrite>true</overwrite>
+	    		</configuration>
+	    		<dependencies>
+	    			<dependency>
+	    				<groupId>org.postgresql</groupId>
+						<artifactId>postgresql</artifactId>
+						<version>9.4-1203-jdbc4</version>
+	    			</dependency>
+	    		</dependencies>
+	    		<executions>
+	    			<execution>
+	    				<id>Generate MyBatis Artifacts</id>
+	    				<phase>validate</phase>
+	    				<goals>
+	    					<goal>generate</goal>
+	    				</goals>
+	    			</execution>
+	    		</executions>
+	    	</plugin>
+	    </plugins>
+   	</pluginManagement>
   </build>
   
 <!-- Propiedades generales del proyecto -->
