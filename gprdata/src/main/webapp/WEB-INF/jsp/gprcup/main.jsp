@@ -8,12 +8,30 @@
 	<title><spring:message code="label.main.title"/></title>  
 </head>
 <body> 
+<script>
+	function reloadSeason(urlAction) {
+		document.getElementById("theForm").action = urlAction;
+		document.getElementById("theForm").submit();	
+	}
+</script>
+
 	<!-- Main content area -->
 	
 	<c:url var="saveStandingsAction" value="/gprcup/saveStandings.html"/>	
 	<c:url var="showStandingsAction" value="/gprcup/showStandings.html"/>	
+	<c:url var="reloadAction" value="/gprcup/main.html"/>	
 
-	<form method="post" action="${showStandingsAction}" id="formSaveStandings">
+	<form method="post" name="theForm" id="theForm" action="${showStandingsAction}" id="formSaveStandings">
+	
+	<div id="currentSeasonContainer"> <!-- Season combo -->
+		<spring:message code="label.season"/>:
+		<select name="currentSeason" id="currentSeason" onchange="reloadSeason('${reloadAction}')">
+			<c:forEach items="${seasonList}" var="season" varStatus="status">
+				<fmt:formatDate var='formattedDate' value='${race.raceDate}' pattern='dd/MM/yyyy HH:mm:ss z'/>
+				<option value="${season.idSeason}" ${lastSeason eq season.idSeason ? 'selected' : ''}>${season.nameSeason}</option>
+			</c:forEach>
+		</select>
+	</div>
 	
 	<div id="currentRaceContainer"> <!-- Races combo -->
 		<spring:message code="label.race"/>:
@@ -237,6 +255,5 @@
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
 	</form>
-	
 </body>  
 </html>  

@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -79,7 +80,9 @@ public class GprcupController {
 	 * @return
 	 */
 	@RequestMapping(value = "/gprcup/main.html", method = {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView main(HttpServletRequest request, HttpSession session)	{
+	public ModelAndView main(HttpServletRequest request,
+			 @RequestParam(value="currentSeason", required=false) String currentSeason,
+			HttpSession session)	{
 		logger.debug("GprcupController.main - begin");
 		
         ModelAndView modelAndView = new ModelAndView();
@@ -89,7 +92,13 @@ public class GprcupController {
         //Pedimos al delegado de negocio que nos pase la lista con los managers disponibles
         List<Manager> managers = fachadaManager.getManagersList();
         
-        Season current = fachadaSeason.getCurrentSeason();
+        Season current = null;
+        if (currentSeason != null) {
+        	current = fachadaSeason.getSeason(new Integer(currentSeason));
+        } else {
+            current = fachadaSeason.getCurrentSeason();
+        }
+        
         Team team = fachadaCup.getDefaultTeam();
         
         CupStandingsSnapshot standings = fachadaCup.getStandings(current, team);
@@ -97,11 +106,13 @@ public class GprcupController {
         if (standings != null) {
         	session.setAttribute("currentCupStandings", standings);
         	modelAndView.addObject("lastRace", standings.getIdRace());
+        	modelAndView.addObject("lastSeason", standings.getIdSeason());
             logger.info("GprcupController.main - Clasificación correspondiente a la carrera: " + standings.getIdRace());
         }
         
         modelAndView.addObject("managersList", managers);
         modelAndView.addObject("racesList", fachadaSeason.getRaces(current));
+        modelAndView.addObject("seasonList", fachadaSeason.getAvailableSeasons());
         
         //TODO esto debería controlarlo un interceptor para asegurar que siempre se carga la temporada actual en sesión
         logger.info("GprcupController.main - Temporada actual: " + current.getNameSeason());
@@ -308,8 +319,10 @@ public class GprcupController {
         
         //Identificamos la clave primaria de la clasificación (Season y Team)
         //Será mejor tomarlo de sesión
-        Season current = fachadaSeason.getCurrentSeason();
-        result.setIdSeason(current.getIdSeason());
+        //Season current = fachadaSeason.getCurrentSeason();
+        //Season theSeason = fachadaSeason.getSeason(new Integer(request.getParameter("currentSeason")));
+        //result.setIdSeason(theSeason.getIdSeason());
+        result.setIdSeason(new Short(request.getParameter("currentSeason")));
         
         //Tomamos equipo por defecto. Esto en un futuro será el equipo asignado al usuario
         result.setIdTeam(fachadaCup.getDefaultTeam().getIdTeam());
@@ -343,6 +356,8 @@ public class GprcupController {
 		
 		//Redirigimos a la página principal. Esto se puede mejorar
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("currentSeason", cupStandings.getIdSeason());
+        modelAndView.addObject("currentRace", cupStandings.getIdRace());
         String view = "redirect:/gprcup/main.html";
         modelAndView.setViewName(view);
         
