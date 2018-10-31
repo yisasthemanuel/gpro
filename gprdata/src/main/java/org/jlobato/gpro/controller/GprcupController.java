@@ -6,14 +6,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.jlobato.gpro.dao.mybatis.facade.FachadaGPRCup;
+import org.jlobato.gpro.dao.mybatis.facade.FachadaManager;
+import org.jlobato.gpro.dao.mybatis.facade.FachadaSeason;
 import org.jlobato.gpro.dao.mybatis.model.CupStandingsSnapshot;
 import org.jlobato.gpro.dao.mybatis.model.Manager;
 import org.jlobato.gpro.dao.mybatis.model.Race;
 import org.jlobato.gpro.dao.mybatis.model.Season;
 import org.jlobato.gpro.dao.mybatis.model.Team;
-import org.jlobato.gpro.services.mybatis.facade.FachadaGPRCup;
-import org.jlobato.gpro.services.mybatis.facade.FachadaManager;
-import org.jlobato.gpro.services.mybatis.facade.FachadaSeason;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

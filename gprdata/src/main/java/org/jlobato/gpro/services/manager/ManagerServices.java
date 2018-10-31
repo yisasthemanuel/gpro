@@ -3,11 +3,8 @@ package org.jlobato.gpro.services.manager;
 import java.io.File;
 import java.nio.file.Files;
 
-import org.apache.commons.logging.Log;
+import org.jlobato.gpro.dao.mybatis.facade.FachadaManager;
 import org.jlobato.gpro.dao.mybatis.model.Manager;
-import org.jlobato.gpro.services.mybatis.facade.FachadaManager;
-import org.jlobato.gpro.services.mybatis.facade.FachadaRaceData;
-import org.jlobato.gpro.services.raceanalysis.SingleRaceImporter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

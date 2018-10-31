@@ -7,10 +7,10 @@ import java.util.Date;
 import java.util.Iterator;
 
 import org.apache.commons.lang3.time.DateUtils;
+import org.jlobato.gpro.dao.mybatis.facade.FachadaSeason;
+import org.jlobato.gpro.dao.mybatis.facade.FachadaTrack;
 import org.jlobato.gpro.dao.mybatis.model.Race;
 import org.jlobato.gpro.dao.mybatis.model.Season;
-import org.jlobato.gpro.services.mybatis.facade.FachadaSeason;
-import org.jlobato.gpro.services.mybatis.facade.FachadaTrack;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -133,7 +133,8 @@ public class GPROCalendarBrowserTest extends TestCase {
 			Date eos = null;
 			
 			
-			for (Iterator i = calendar.getComponents().iterator(); i.hasNext();) {
+			for (@SuppressWarnings("rawtypes")
+			Iterator i = calendar.getComponents().iterator(); i.hasNext();) {
 				Component component = (Component) i.next();
 				logger.info("Component [" + component.getName() + "]");
 
@@ -236,7 +237,7 @@ public class GPROCalendarBrowserTest extends TestCase {
 			FachadaSeason fSeason = contexto.getBean(FachadaSeason.class);
 			
 			//Actualizamos la temporada con lo que nos encontramos en el calendario importado
-			fSeason.updateSeasonCalendar(currentSeason, races);
+			//fSeason.updateSeasonCalendar(currentSeason, races);
 			
 		} catch (IOException e) {
 			logger.error("IOException", e);

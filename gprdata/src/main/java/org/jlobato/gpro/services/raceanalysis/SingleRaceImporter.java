@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import org.jlobato.gpro.services.mybatis.facade.FachadaRaceData;
+import org.jlobato.gpro.dao.mybatis.facade.FachadaRaceData;
 import org.jlobato.gpro.sheetparser.GPRORaceSheetParser;
 import org.jlobato.gpro.sheetparser.GPRORaceSheetParserFactory;
 import org.jlobato.gpro.sheetparser.RaceDataSheetModel;
@@ -127,6 +127,7 @@ public class SingleRaceImporter {
 	 * 
 	 * @param managerTrack
 	 */
+	@SuppressWarnings("unused")
 	private void setManagerRacedata(FachadaRaceData managerRacedata) {
 		this.managerRacedata = managerRacedata;
 	}

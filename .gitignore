@@ -1,1 +1,10 @@
 gprdata/Desarrollo/oxygenws/gprdata/gprdata/target/m2e-wtp/web-resources/.gitignore
+gpromybatis/.classpath
+gpromybatis/.gitignore
+gpromybatis/.project
+gpromybatis/.settings/org.eclipse.wst.validation.prefs
+gpromybatis/.settings/org.eclipse.wst.common.project.facet.core.xml
+gpromybatis/.settings/org.eclipse.wst.common.component
+gpromybatis/.settings/org.eclipse.m2e.core.prefs
+gpromybatis/.settings/org.eclipse.jdt.core.prefs
+gpromybatis/.settings/org.eclipse.core.resources.prefs

@@ -1,15 +1,11 @@
 package org.jlobato.gpro.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.jlobato.gpro.dao.mybatis.model.Race;
-import org.jlobato.gpro.services.mybatis.facade.FachadaManager;
-import org.jlobato.gpro.services.mybatis.facade.FachadaSeason;
-import org.jlobato.gpro.services.mybatis.facade.FachadaTeam;
+import org.jlobato.gpro.dao.mybatis.facade.FachadaManager;
+import org.jlobato.gpro.dao.mybatis.facade.FachadaSeason;
+import org.jlobato.gpro.dao.mybatis.facade.FachadaTeam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
