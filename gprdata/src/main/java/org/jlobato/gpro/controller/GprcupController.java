@@ -114,7 +114,6 @@ public class GprcupController {
         modelAndView.addObject("racesList", fachadaSeason.getRaces(current));
         modelAndView.addObject("seasonList", fachadaSeason.getAvailableSeasons());
         
-        //TODO esto debería controlarlo un interceptor para asegurar que siempre se carga la temporada actual en sesión
         logger.info("GprcupController.main - Temporada actual: " + current.getNameSeason());
         modelAndView.addObject("currentSeason", current);
         

@@ -161,7 +161,7 @@ CUP
 	</table>
 	
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-	
+	<input type="hidden" name="currentSeason" value="${currentCupStandings.idSeason}"/>	
 	<br>
 	<br>
 	<input type="submit" value="<spring:message code="label.copa.edit"/>">
