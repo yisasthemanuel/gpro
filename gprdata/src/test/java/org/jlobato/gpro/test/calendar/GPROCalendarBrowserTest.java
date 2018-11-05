@@ -17,7 +17,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import junit.framework.TestCase;
 import net.fortuna.ical4j.data.CalendarBuilder;
@@ -37,7 +37,8 @@ public class GPROCalendarBrowserTest extends TestCase {
 	/**
 	 * 
 	 */
-	private static final String APPLICATION_CONTEXT = "C:/Desarrollo/gpro-dev/gpro/gprdata/src/main/webapp/WEB-INF/spring-applicationContext.xml";
+	//private static final String APPLICATION_CONTEXT = "C:/Desarrollo/gpro-dev/gpro/gprdata/src/main/webapp/WEB-INF/spring-applicationContext.xml";
+	private static final String APPLICATION_CONTEXT = "/spring-context/spring-applicationContext.xml";
 
 	/**
 	 * 
@@ -87,7 +88,8 @@ public class GPROCalendarBrowserTest extends TestCase {
 		String calendarFileName = "GPROCalS67.ics";
 		
 		//Cargamos el contexto spring (el mismo contexto que la aplicación web)
-		contexto = new FileSystemXmlApplicationContext(APPLICATION_CONTEXT);
+		//contexto = new FileSystemXmlApplicationContext(APPLICATION_CONTEXT);
+		contexto = new ClassPathXmlApplicationContext(APPLICATION_CONTEXT);
 		logger.info("Contexto cargado: " + contexto.getDisplayName());
 		
 		//Cargamos el calendario

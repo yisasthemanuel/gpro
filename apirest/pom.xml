@@ -25,6 +25,27 @@
 			<version>${org.springframework.boot.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- GproMyBatis -->
+		<dependency>
+	    	<groupId>org.jlobato.gpro</groupId>
+	    	<artifactId>gpro-mybatis</artifactId>
+	    	<version>0.0.1</version>
+		</dependency>
+		
+		<!--c3p0 0.9.1.2 connection pool -->
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1.2</version>
+		</dependency>
+		<!--AspectJ -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.7.4</version>
+		</dependency>
+		
 	</dependencies>
 
 	<properties>

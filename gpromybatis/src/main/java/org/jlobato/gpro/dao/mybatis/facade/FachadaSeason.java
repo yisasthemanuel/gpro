@@ -206,6 +206,19 @@ public class FachadaSeason {
     	return result;
     }
     
+    public Race getRace(int codSeason, int codRace) {
+    	Race result = null;
+    	RaceExample example = new RaceExample();
+    	org.jlobato.gpro.dao.mybatis.model.RaceExample.Criteria criteria = example.createCriteria();
+    	criteria.andIdSeasonEqualTo((short)codSeason);
+    	criteria.andIdRaceEqualTo((short)codRace);
+    	List<Race> races = raceDAO.selectByExample(example);
+    	if (!races.isEmpty()) {
+    		result = races.get(0);
+    	}
+    	return result;
+    }
+    
     /**
      * 
      * @param codRace
