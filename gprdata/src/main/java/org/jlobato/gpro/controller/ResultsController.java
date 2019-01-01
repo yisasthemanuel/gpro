@@ -55,7 +55,7 @@ public class ResultsController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/results", method = RequestMethod.GET)
+	@RequestMapping(value = "/pre-results", method = RequestMethod.GET)
 	public ModelAndView results(HttpServletRequest request, HttpSession session)	{
 		logger.debug("ResultsController.results - begin");
 		
@@ -91,5 +91,23 @@ public class ResultsController {
 		//return new ArrayList<Race>();
 		return "{codigo: apatrullando}";
 	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/results", method = RequestMethod.GET)
+	public ModelAndView getResults()	{
+		//Modelo
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("Texto", "Eso es asín");
+		//Vista
+		modelAndView.setViewName("/results/putresults");
+		
+		return modelAndView;
+	}
+
 
 }

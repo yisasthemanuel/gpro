@@ -2,9 +2,12 @@ package org.jlobato.gpro.dao.mybatis.facade;
 
 import java.util.List;
 
+import org.jlobato.gpro.dao.mybatis.mappers.ManagerHistoryMapper;
 import org.jlobato.gpro.dao.mybatis.mappers.ManagerMapper;
 import org.jlobato.gpro.dao.mybatis.model.Manager;
 import org.jlobato.gpro.dao.mybatis.model.ManagerExample;
+import org.jlobato.gpro.dao.mybatis.model.ManagerHistory;
+import org.jlobato.gpro.dao.mybatis.model.ManagerHistoryExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +23,9 @@ public class FachadaManager {
 	
     @Autowired
     protected ManagerMapper managerDAO;
+    
+    @Autowired
+    protected ManagerHistoryMapper managerHistoryDAO;
 	
 	/**
 	 * 
@@ -98,4 +104,67 @@ public class FachadaManager {
 		return manager;
 	}
 
+	/**
+	 * 
+	 * @param codeManager
+	 * @param idCategory
+	 * @param idGroup
+	 * @param idSeason
+	 * @param idTyreBrand
+	 */
+	public void addManagerHistory(String codeManager, Short idCategory, Short idGroup, Short idSeason, Short idTyreBrand) {
+		ManagerHistory record = new ManagerHistory()
+				.withIdCategory(idCategory)
+				.withIdGroup(idGroup)
+				.withIdSeason(idSeason)
+				.withIdTyreBrand(idTyreBrand);
+		addManagerHistory(getManagerByCode(codeManager), record);
+	}
+
+	/**
+	 * 
+	 * @param manager
+	 * @param record
+	 */
+	public void addManagerHistory(Manager manager, ManagerHistory record) {
+		addManagerHistory(record.withIdManager(manager.getIdManager()));
+	}
+	
+	/**
+	 * 
+	 * @param record
+	 */
+	public void addManagerHistory(ManagerHistory record) {
+		managerHistoryDAO.insert(record);
+	}
+	
+	/**
+	 * 
+	 * @param codeManager
+	 * @param idSeason
+	 * @param idCategory
+	 * @param idGroup
+	 * @param idTyreBrand
+	 */
+	public void updateManagerHistory(String codeManager, Short idSeason, Short idCategory, Short idGroup, Short idTyreBrand) {
+		ManagerHistoryExample example = new ManagerHistoryExample();
+		example.createCriteria()
+				.andIdManagerEqualTo(getManagerByCode(codeManager).getIdManager())
+				.andIdSeasonEqualTo(idSeason);
+		List<ManagerHistory> records = managerHistoryDAO.selectByExample(example);
+		records.forEach(record -> {
+			record.withIdCategory(idCategory).withIdGroup(idGroup).withIdTyreBrand(idTyreBrand);
+			managerHistoryDAO.updateByPrimaryKey(record);
+		});
+		
+	}
+	
+	/**
+	 * 
+	 * @param record
+	 */
+	public void updateManagerHistory(ManagerHistory record) {
+		managerHistoryDAO.updateByPrimaryKey(record);
+	}
+	
 }

@@ -1,37 +1,21 @@
 package org.jlobato.gpro.dao.mybatis.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 import org.jlobato.gpro.dao.mybatis.facade.FachadaManager;
 import org.jlobato.gpro.dao.mybatis.facade.FachadaManagerResultService;
 import org.jlobato.gpro.dao.mybatis.model.Manager;
 import org.jlobato.gpro.dao.mybatis.model.ManagerResult;
 import org.jlobato.gpro.dao.mybatis.model.Race;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import junit.framework.TestCase;
-
-public class ManagerResultTest extends TestCase {
+public class ManagerResultTest extends MyBatisBaseTest {
 	
-	private ApplicationContext contexto = null;
-
-	@Before
-	public void setUp() throws Exception {
-		super.setUp();
-		//Cargamos el contexto spring (el mismo contexto que la aplicación web)
-		contexto = new ClassPathXmlApplicationContext("/spring-applicationContext.xml");
-		
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
 
 	@Test
 	public void testOne() {
-		assertNotNull(contexto);
 		//Obtenemos el manager de test
 		FachadaManager managerService = contexto.getBean(FachadaManager.class);
 		assertNotNull(managerService);

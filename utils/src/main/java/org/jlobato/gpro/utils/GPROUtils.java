@@ -1,7 +1,9 @@
 package org.jlobato.gpro.utils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Optional;
 
 import org.joda.time.Period;
 import org.joda.time.format.PeriodFormatter;
@@ -102,6 +104,100 @@ public class GPROUtils {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	/**
+	 * 
+	 * @param linkUrl
+	 * @return
+	 */
+	public static String getIDManagerFromLink(String linkUrl) {
+		String result = "";
+		int index = linkUrl.indexOf("IDM") + "IDM".length() + 1;
+		result = linkUrl.substring(index, linkUrl.length());
+		return result;
+	}
+	
+	public static String getCategoryCode(String group) {
+		String result = "";
+		int index = group.indexOf("-");
+		result = (index >= 0) ? group.substring(0, index) : group.equals("Ret") ? "-" : "E"; //En el caso de que no hay guión, siempre es Elite		
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @param group
+	 * @return
+	 */
+	public static String getGroupId(String group) {
+		String result = null;
+		
+		int index = group.indexOf("-");
+		if (index > 0) result = group.substring(index + 1, group.length());
+		
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @param value
+	 * @param clazz
+	 * @return
+	 */
+	public static <T> T castIfNotNull(Object value, Class<T>clazz) {
+		T result = null;
+		if (value != null) {
+			try {
+				result = clazz.getConstructor(value.getClass()).newInstance(value);
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @param url
+	 * @return
+	 */
+	public static String getTyreBrandCode(String url) {
+		Optional<String> result = Optional.ofNullable(url);
+		if (result.isPresent()) {
+			if (result.get().contains("avonn")) return "AV";
+			else if (result.get().contains("pipirelli")) return "PI";
+			else if (result.get().contains("dunnolop")) return "DU";
+			else if (result.get().contains("yokomama")) return "YO";
+			else if (result.get().contains("hancock")) return "HA";
+			else if (result.get().contains("michelini")) return "MI";
+			else if (result.get().contains("contimental")) return "CO";
+			else if (result.get().contains("bridgerock")) return "BR";
+			else if (result.get().contains("badyear")) return "BY";
+			else return null;
+		}
+		else return null;
+	}
+	
+	
+	public static void main(String[] args) {
+		//TODO Pasarlo a TEST
+		//Test getIDManagerFromLink
+		System.out.println("ID Manager: " + getIDManagerFromLink("ManagerProfile.asp?IDM=113612"));
+		
+		//Test getCategoryCode
+		String group = "M-1";
+		System.out.println("Category for " + group + " -> " + getCategoryCode(group));
+		
+		//Test getGroupId
+		System.out.println("Group id for " + group + " -> " + getGroupId(group));
+		
+		group = "Elite";
+		System.out.println("Category for " + group + " -> " + getCategoryCode(group));
+		
+		//Test getGroupId
+		System.out.println("Group id for " + group + " -> " + getGroupId(group));
+		
 	}
 
 }

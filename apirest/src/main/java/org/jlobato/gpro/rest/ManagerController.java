@@ -24,16 +24,20 @@ public class ManagerController {
 	 */
 	@Autowired
 	private IManagerService service;
+	//TODO Ver algún mecanismo (más bien, EL mecanismo) para instanciar el servicio en función de la configuración
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
 	public List<Manager> findAll() {
+		//TODO Tirar del servicio correcto
 		return service.findAll();
 	}
 	
 	@RequestMapping(value = "/results", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.OK)
 	public void update(@RequestBody ManagerResults resource) {
+		//TODO Utilizar precondiciones Guava. Luego cambiar a precondiciones de la 1.8
+		//TODO Utilizar RestPreconditions (baeldung)
 		//Preconditions.checkNotNull(resource);
 		//RestPreconditions.checkNotNull(service.getById(resource.getId()));
 		service.putResults(resource);

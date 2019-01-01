@@ -124,6 +124,22 @@
       <property name="cache_size" value="50"/>
       <generatedKey column="id_manager_result" sqlStatement="select NEXTVAL('manager_result_id_seq')"/>
     </table>
+    
+    <!-- MANAGER HISTORY TABLE -->
+    <table tableName="MANAGER_HISTORY" domainObjectName="ManagerHistory">
+      <generatedKey column="id_manager_history" sqlStatement="select NEXTVAL('manager_history_id_seq')"/>
+    </table>
+    
+    <!-- MANAGER TEAM HISTORY TABLE -->
+    <table tableName="MANAGER_TEAM_HISTORY" domainObjectName="ManagerTeamHistory">
+      <generatedKey column="id_manager_team_history" sqlStatement="select NEXTVAL('manager_team_history_id_seq')"/>
+    </table>
+    
+    <!-- TYRE BRAND TABLE -->
+    <table tableName="TYRE_BRAND" domainObjectName="TyreBrand">
+      <generatedKey column="id_tyre_brand" sqlStatement="select NEXTVAL('tyre_brand_id_seq')"/>
+    </table>
+
 
   </context>
 </generatorConfiguration>

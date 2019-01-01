@@ -98,6 +98,7 @@ public class GprcupController {
         } else {
             current = fachadaSeason.getCurrentSeason();
         }
+        modelAndView.addObject("lastSeason", current.getIdSeason());
         
         Team team = fachadaCup.getDefaultTeam();
         

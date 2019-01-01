@@ -85,7 +85,7 @@ public class GPROCalendarBrowserTest extends TestCase {
 		//Entorno desarrollo
 		System.setProperty("entorno", "I");
 		
-		String calendarFileName = "GPROCalS67.ics";
+		String calendarFileName = "GPROCalS68.ics";
 		
 		//Cargamos el contexto spring (el mismo contexto que la aplicación web)
 		//contexto = new FileSystemXmlApplicationContext(APPLICATION_CONTEXT);
@@ -239,7 +239,7 @@ public class GPROCalendarBrowserTest extends TestCase {
 			FachadaSeason fSeason = contexto.getBean(FachadaSeason.class);
 			
 			//Actualizamos la temporada con lo que nos encontramos en el calendario importado
-			//fSeason.updateSeasonCalendar(currentSeason, races);
+			fSeason.updateSeasonCalendar(currentSeason, races);
 			
 		} catch (IOException e) {
 			logger.error("IOException", e);
