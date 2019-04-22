@@ -204,5 +204,19 @@ public interface RaceDataSheetModelBuilder {
 	 * 
 	 */
 	public void addNewTechProblem();
+	
+	/**
+	 * 
+	 * @param energyStart
+	 * @return
+	 */
+	public RaceDataSheetModelBuilder setDriverEnergyStart(int energyStart);
+	
+	/**
+	 * 
+	 * @param energyEnd
+	 * @return
+	 */
+	public RaceDataSheetModelBuilder setDriverEnergyEnd(int energyEnd);
 
 }

@@ -11,7 +11,7 @@ import org.jlobato.gpro.sheetparser.RaceDataSheetModel;
  * @author JLOBATO
  *
  */
-public class BaseSheetParserTest {
+public abstract class BaseSheetParserTest {
 	/**
 	 * 
 	 */
@@ -34,9 +34,21 @@ public class BaseSheetParserTest {
 	 */
 	void loadFromClassPath(String sheetPath) throws Exception {
 		//Cargamos la hoja de cálculo
+		loadFromClassPath(sheetPath, getParserType());
+	}
+	
+	/**
+	 * 
+	 * @param sheetPath
+	 * @throws Exception
+	 */
+	void loadFromClassPath(String sheetPath, int parserType) throws Exception {
+		//Cargamos la hoja de cálculo
 		sheetInputStream = getClass().getResourceAsStream(sheetPath);
-		parser = GPRORaceSheetParserFactory.create(sheetInputStream, GPRORaceSheetParserFactory.EXCEL_PARSER);
+		parser = GPRORaceSheetParserFactory.create(sheetInputStream, parserType);
 		model = parser.readRaceDataSheet();
 	}
+	
+	public abstract int getParserType();
 
 }

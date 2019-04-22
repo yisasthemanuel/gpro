@@ -179,25 +179,25 @@ public class GPROUtils {
 		else return null;
 	}
 	
+	public static int getDriverEnergyAtStart(String driverEnergyValue) {
+		int firstPercentIndex = driverEnergyValue.indexOf("%");
+		return Integer.parseInt(driverEnergyValue.substring(0, firstPercentIndex));
+	}
 	
-	public static void main(String[] args) {
-		//TODO Pasarlo a TEST
-		//Test getIDManagerFromLink
-		System.out.println("ID Manager: " + getIDManagerFromLink("ManagerProfile.asp?IDM=113612"));
-		
-		//Test getCategoryCode
-		String group = "M-1";
-		System.out.println("Category for " + group + " -> " + getCategoryCode(group));
-		
-		//Test getGroupId
-		System.out.println("Group id for " + group + " -> " + getGroupId(group));
-		
-		group = "Elite";
-		System.out.println("Category for " + group + " -> " + getCategoryCode(group));
-		
-		//Test getGroupId
-		System.out.println("Group id for " + group + " -> " + getGroupId(group));
-		
+	public static int getDriverEnergyAtEnd(String driverEnergyValue) {
+		//Metemos +2 porque el espacio no se limpia con trim (no se muy bien porque)
+		int separatorIndex = driverEnergyValue.indexOf(">") + 2;
+		int lastPercentIndex = driverEnergyValue.lastIndexOf("%");
+		return Integer.parseInt(driverEnergyValue.substring(separatorIndex, lastPercentIndex));
 	}
 
+	/**
+	 * 
+	 * @param pitTime
+	 * @return
+	 */
+	public static int getPitTimeMillis(String pitTime) {
+		String[] pitTimeParts = pitTime.split("\\.");
+		return (Integer.parseInt(pitTimeParts[0]) * 1000) + Integer.parseInt(pitTimeParts[1]);
+	}	
 }

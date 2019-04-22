@@ -78,6 +78,21 @@ public interface GPRORaceSheetParser {
 	
 	/**
 	 * 
+	 */
+	public  static final int DRIVER_ENERGY_MODE = 15;
+	
+	/**
+	 * 
+	 */
+	String DRIVER_PREFIX = "Driver";
+	
+	/**
+	 * 
+	 */
+	String TECHNICAL_PROBLEMS = "Technical problems";
+	
+	/**
+	 * 
 	 * @return
 	 * @throws IOException 
 	 * @throws Exception 

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import org.jlobato.gpro.sheetparser.GPRORaceSheetParserFactory;
 import org.jlobato.gpro.sheetparser.RaceLapInfo;
 import org.junit.After;
 import org.junit.Before;
@@ -13,7 +14,7 @@ public class NoWetRisksTest extends BaseSheetParserTest {
 
 	@Before
 	public void setUp() throws Exception {
-		loadFromClassPath("/JP_Monza_S24_sinwetrisks.xlsx");		
+		loadFromClassPath("/xls/JP_Monza_S24_sinwetrisks.xlsx");		
 	}
 
 	@After
@@ -149,7 +150,7 @@ public class NoWetRisksTest extends BaseSheetParserTest {
 		
 		//Test específico para los wet risks
 		try {
-			loadFromClassPath("/A1-Ring_S24.xlsx");
+			getSheetFromClassPath("/A1-Ring_S24.xlsx");
 		} catch (Exception e) {
 			e.printStackTrace();
 			//No debería dar error
@@ -166,7 +167,7 @@ public class NoWetRisksTest extends BaseSheetParserTest {
 		assertEquals("The suspension broke and made the car undrivable", model.getTechProblemsList().get(0).getTechProblemInfo());
 
 		try {
-			loadFromClassPath("/Barcelona_S24.xlsx");
+			getSheetFromClassPath("/Barcelona_S24.xlsx");
 		} catch (Exception e) {
 			e.printStackTrace();
 			//No debería dar error
@@ -181,7 +182,7 @@ public class NoWetRisksTest extends BaseSheetParserTest {
 		assertEquals(0, model.getTechProblemsList().size());
 		
 		try {
-			loadFromClassPath("/Fiorano_S23.xlsx");
+			getSheetFromClassPath("/Fiorano_S23.xlsx");
 		} catch (Exception e) {
 			e.printStackTrace();
 			//No debería dar error
@@ -198,7 +199,7 @@ public class NoWetRisksTest extends BaseSheetParserTest {
 		assertEquals("The rear wing was broken and had to be replaced", model.getTechProblemsList().get(0).getTechProblemInfo());
 		
 		try {
-			loadFromClassPath("/Poznan_S23.xlsx");
+			getSheetFromClassPath("/Poznan_S23.xlsx");
 		} catch (Exception e) {
 			e.printStackTrace();
 			//No debería dar error
@@ -216,6 +217,13 @@ public class NoWetRisksTest extends BaseSheetParserTest {
 		
 	}
 	
+	void getSheetFromClassPath(String path) throws Exception {
+		loadFromClassPath("/xls" + path);
+	}
 	
-
+	
+	@Override
+	public int getParserType() {
+		return GPRORaceSheetParserFactory.EXCEL_PARSER;
+	}
 }

@@ -13,7 +13,13 @@ import org.junit.runners.Suite.SuiteClasses;
 	IrungattukottaiS49XLSXTest.class,
 	NoWetRisksTest.class,
 	WrongSheetFormatTest.class,
-	NoStopsTest.class
+	NoStopsTest.class,
+	AhvenistoS49HTMLTest.class,
+	AustinS49HTMLTest.class,
+	IrungattukottaiS49HTMLTest.class,
+	NoStopsHTMLTest.class,
+	NoWetRisksHTMLTest.class,
+	DriverEnergyTest.class
 })
 public class AllTests {
 

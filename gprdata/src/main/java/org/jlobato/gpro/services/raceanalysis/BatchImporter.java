@@ -27,7 +27,7 @@ public class BatchImporter {
 			System.setProperty("entorno", "I");
 			
 			//Cargamos el contexto spring (el mismo contexto que la aplicación web)
-			contexto = new FileSystemXmlApplicationContext("C:/Desarrollo/gpro-dev/gpro/gprdata/src/main/webapp/WEB-INF/spring-applicationContext.xml");
+			contexto = new FileSystemXmlApplicationContext("C:/Desarrollo/eclipse/ws/gpro/gprdata/src/main/webapp/WEB-INF/spring-applicationContext.xml");
 			System.out.println("Contexto cargado: " + contexto.getDisplayName());
 			
 			//Importador de carreras

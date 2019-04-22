@@ -2,6 +2,7 @@ package org.jlobato.gpro.sheetparser.test;
 
 import static org.junit.Assert.*;
 
+import org.jlobato.gpro.sheetparser.GPRORaceSheetParserFactory;
 import org.jlobato.gpro.sheetparser.RaceLapInfo;
 import org.junit.After;
 import org.junit.Before;
@@ -11,7 +12,7 @@ public class NoStopsTest extends BaseSheetParserTest {
 
 	@Before
 	public void setUp() throws Exception {
-		loadFromClassPath("/Portimao_S40_sinstints.xlsx");
+		loadFromClassPath("/xls/Portimao_S40_sinstints.xlsx");
 	}
 
 	@After
@@ -125,6 +126,11 @@ public class NoStopsTest extends BaseSheetParserTest {
 		
 		assertEquals(model.getEndTyres(), null);
 		assertEquals(model.getEndFuel(), null);
+	}
+
+	@Override
+	public int getParserType() {
+		return GPRORaceSheetParserFactory.EXCEL_PARSER;
 	}
 
 }

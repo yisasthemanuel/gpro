@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
+import org.jlobato.gpro.utils.GPROUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -28,6 +29,11 @@ public class RaceHtmlParser implements GPRORaceSheetParser {
 	 * 
 	 */
 	private InputStream is;
+	
+	/**
+	 * 
+	 */
+	private boolean driverEnergy = false;
 
 	/**
 	 * 
@@ -84,42 +90,88 @@ public class RaceHtmlParser implements GPRORaceSheetParser {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		try {
+		String baseDirectory = "C:/Desarrollo/gpro-dev/racedata/";
+		
+		try (FileInputStream energy = new FileInputStream(new File(baseDirectory, "MIKKO/Season 68/S68 - R1 - Laguna Seca.xls"))) {
 			//Directorio base
-			System.out.println("Starting...");
-			String baseDirectory = "D:/desarrollo/gprodata-maven/gprdata/racedata";
+			System.out.println("Starting... Energy One HTML");
 			
-			//File input = new File(baseDirectory, "CARLOS/S56R01_Shanghai.xls");
-			FileInputStream input = new FileInputStream(new File(baseDirectory, "CARLOS/S56R16_Jerez.xls"));
-			
-			RaceHtmlParser parser = new RaceHtmlParser(input);
+			GPRORaceSheetParser parser = new RaceHtmlParser(energy);
 			RaceDataSheetModel data = parser.readRaceDataSheet();
 			System.out.println("Race model: " + data);
 			
-//			Document doc = Jsoup.parse(input, "UTF-8", "");
-//			
-//			// Creamos el model builder
-//			RaceDataSheetModelBuilder raceModelBuilder = new DefaultRaceDataSheetModelBuilder(true);
-//			RaceHtmlParser parser = new RaceHtmlParser(null);
-//			Elements tables = doc.getElementsByTag("table");
-//			
-//			//Por cada tabla, recorre las filas
-//			int i = 1;
-//			for (Element table : tables) {
-//				Integer currentTable = new Integer(i);
-//				//RacePartialParser partialParser = PARTIAL_PARSERS.get(currentTable);
-//				RacePartialParser partialParser = parser.getNextParser(currentTable, table, tables.size());
-//				if (partialParser != null) {
-//					partialParser.parse(table, raceModelBuilder);
-//				}
-//				i++;
-//			}
-//			System.out.println("Race model: " + raceModelBuilder.getRaceDataSheetModel());
+			System.out.println("*****OK");
+			System.out.println();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			System.exit(1);
 		}
+			
+		try (FileInputStream energy = new FileInputStream(new File(baseDirectory, "MIKKO/Season 68/S67 - R1 - Kyalami.xls"))) {
+			//Directorio base
+			System.out.println("Starting... NO Energy One HTML");
+			
+			GPRORaceSheetParser parser = new RaceHtmlParser(energy);
+			RaceDataSheetModel data = parser.readRaceDataSheet();
+			System.out.println("Race model: " + data);
+			
+			
+			System.out.println("*****OK");
+			System.out.println();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try (FileInputStream energy = new FileInputStream(new File(baseDirectory, "MIKKO/Season 68/S68 - R3 - Adelaide.xls"))) {
+			//Directorio base
+			System.out.println("Starting... Energy One HTML");
+			
+			GPRORaceSheetParser parser = new RaceHtmlParser(energy);
+			RaceDataSheetModel data = parser.readRaceDataSheet();
+			System.out.println("Race model: " + data);
+			
+			System.out.println("*****OK");
+			System.out.println();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			
+		
+		/*try (FileInputStream energy = new FileInputStream(new File(baseDirectory, "MIKKO/Season 68/S68 - R1 - Laguna Seca.xlsx"))) {
+			//Directorio base
+			System.out.println("Starting... Energy One EXCEL");
+			
+			GPRORaceSheetParser parser = new ExcelSheetParser(energy);
+			RaceDataSheetModel data = parser.readRaceDataSheet();
+			System.out.println("Race model: " + data);
+			
+			
+			System.out.println("*****OK");
+			System.out.println();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try (FileInputStream energy = new FileInputStream(new File(baseDirectory, "MIKKO/Season 68/S67 - R1 - Kyalami.xlsx"))) {
+			//Directorio base
+			System.out.println("Starting... NO Energy One EXCEL");
+			
+			GPRORaceSheetParser parser = new ExcelSheetParser(energy);
+			RaceDataSheetModel data = parser.readRaceDataSheet();
+			System.out.println("Race model: " + data);
+			
+			
+			System.out.println("*****OK");
+			System.out.println();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}*/
+		
+		System.exit(0);
 	}
 	
 	/**
@@ -129,6 +181,46 @@ public class RaceHtmlParser implements GPRORaceSheetParser {
 	 */
 	private static interface RacePartialParser {
 		public void parse(Element table, RaceDataSheetModelBuilder raceModelBuilder);
+		public boolean isOptional();
+	}
+	
+	/**
+	 * 
+	 * @author jmplobato
+	 *
+	 */
+	private static abstract class MandatoryPartialParser implements RacePartialParser {
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public boolean isOptional() {
+			return false;
+		}
+	}
+	
+	/**
+	 * 
+	 * @author jmplobato
+	 *
+	 */
+	private static class DriverEnergyPartialParser implements RacePartialParser {
+
+		@Override
+		public void parse(Element table, RaceDataSheetModelBuilder raceModelBuilder) {
+			Elements rows = table.getElementsByTag(HTML_TABLE_ROW_TAG);
+			Element row = rows.get(1);
+			String energyText = row.getElementsByTag(HTML_TABLE_COLUMN_TAG).first().text();
+			raceModelBuilder.setDriverEnergyStart(GPROUtils.getDriverEnergyAtStart(energyText));
+			raceModelBuilder.setDriverEnergyEnd(GPROUtils.getDriverEnergyAtEnd(energyText));
+		}
+
+		@Override
+		public boolean isOptional() {
+			return true;
+		}
+		
 	}
 	
 	/**
@@ -136,8 +228,9 @@ public class RaceHtmlParser implements GPRORaceSheetParser {
 	 * @author jlobato
 	 *
 	 */
-	private static class SeasonAndTrackPartialParser implements RacePartialParser {
+	private static class SeasonAndTrackPartialParser extends MandatoryPartialParser {
 
+		@Override
 		/**
 		 * 
 		 */
@@ -156,7 +249,7 @@ public class RaceHtmlParser implements GPRORaceSheetParser {
 	 * @author jlobato
 	 *
 	 */
-	private static class StartFuelPartialParser implements RacePartialParser {
+	private static class StartFuelPartialParser extends MandatoryPartialParser {
 
 		/**
 		 * 
@@ -177,7 +270,7 @@ public class RaceHtmlParser implements GPRORaceSheetParser {
 	 * @author jlobato
 	 *
 	 */
-	private static class LapTimesPartialParser implements RacePartialParser {
+	private static class LapTimesPartialParser extends MandatoryPartialParser {
 
 		/**
 		 * 
@@ -249,7 +342,7 @@ public class RaceHtmlParser implements GPRORaceSheetParser {
 	 * @author jlobato
 	 *
 	 */
-	private static class RisksUsedPartialParser implements RacePartialParser {
+	private static class RisksUsedPartialParser extends MandatoryPartialParser {
 
 		/**
 		 * 
@@ -319,7 +412,7 @@ public class RaceHtmlParser implements GPRORaceSheetParser {
 	 * @author jlobato
 	 *
 	 */
-	private static class SetupUsedPartialParser implements RacePartialParser {
+	private static class SetupUsedPartialParser extends MandatoryPartialParser {
 
 		/**
 		 * 
@@ -363,7 +456,7 @@ public class RaceHtmlParser implements GPRORaceSheetParser {
 	 * @author jlobato
 	 *
 	 */
-	private static class CarPartsPartialParser implements RacePartialParser {
+	private static class CarPartsPartialParser extends MandatoryPartialParser {
 
 		/**
 		 * 
@@ -512,7 +605,7 @@ public class RaceHtmlParser implements GPRORaceSheetParser {
 	 * @author jlobato
 	 *
 	 */
-	private static class PitStopsPartialParser implements RacePartialParser {
+	private static class PitStopsPartialParser extends MandatoryPartialParser {
 
 		/**
 		 * 
@@ -545,7 +638,7 @@ public class RaceHtmlParser implements GPRORaceSheetParser {
 						raceModelBuilder.setStopRefilledInfo(pitstop.text());
 						break;
 					case 6:
-						raceModelBuilder.setStopPitTime(getPitTimeMillis(pitstop.text()));
+						raceModelBuilder.setStopPitTime(GPROUtils.getPitTimeMillis(pitstop.text()));
 						break;
 					default:
 						break;
@@ -563,7 +656,7 @@ public class RaceHtmlParser implements GPRORaceSheetParser {
 	 * @author jlobato
 	 *
 	 */
-	private static class TechProblemsPartialParser implements RacePartialParser {
+	private static class TechProblemsPartialParser extends MandatoryPartialParser {
 
 		/**
 		 * 
@@ -599,7 +692,7 @@ public class RaceHtmlParser implements GPRORaceSheetParser {
 	 * @author jlobato
 	 *
 	 */
-	private static class AfterFinishPartialParser implements RacePartialParser {
+	private static class AfterFinishPartialParser extends MandatoryPartialParser {
 
 		/**
 		 * 
@@ -622,16 +715,6 @@ public class RaceHtmlParser implements GPRORaceSheetParser {
 	
 	/**
 	 * 
-	 * @param pitTime
-	 * @return
-	 */
-	public static int getPitTimeMillis(String pitTime) {
-		String[] pitTimeParts = pitTime.split("\\.");
-		return (Integer.parseInt(pitTimeParts[0]) * 1000) + Integer.parseInt(pitTimeParts[1]);
-	}
-	
-	/**
-	 * 
 	 * @param i
 	 * @param currentTable
 	 * @param totalTables
@@ -639,49 +722,70 @@ public class RaceHtmlParser implements GPRORaceSheetParser {
 	 */
 	public RacePartialParser getNextParser(int nTable, Element currentTable, int totalTables) {
 		RacePartialParser result = null;
-		switch(nTable) {
-			case 7:
-				//PIT_STOPS
-				//Leemos la primera fila y la primera columna debe tener el texto "Pit"
-				String firstColumText = getFirstColumnText(currentTable);
-				if (firstColumText.equals("Pit")) {
-					//Se trata de la tabla de pitstops
-					result = PARTIAL_PARSERS.get(PIT_STOPS);
-				}
-				else {
-					//Si no viene la de pitstops, o viene la de final de carrera o viene la de problemas técnicos
-					//Vemos si es la de problemas tecnicos
-					String headerText = getFirstHeaderText(currentTable);
-					if (headerText.equals("Technical problems")) {
-						//Es la de problemas técnicos
-						result = PARTIAL_PARSERS.get(TECH_PROBLEMS);
-					}
-					else {
-						//En cualquier otro caso es la de fin de carrera
-						result = PARTIAL_PARSERS.get(FINISH_FUEL_AND_TYRES);
-					}
-				}
-				break;
-			case 8:
-				//Si es la octava tabla puede ser o problemas técnicos o final de carrera
+		String firstColumText = null;
+		switch (nTable) {
+		case 4:
+			//Cuarta tabla: o setup o driver energy
+			firstColumText = getFirstColumnText(currentTable);
+			if (firstColumText.startsWith(DRIVER_PREFIX)) {
+				//Driver
+				result = PARTIAL_PARSERS.get(DRIVER_ENERGY);
+				this.driverEnergy = true;
+			}
+			else {
+				//Setup
+				result = PARTIAL_PARSERS.get(SETUP_USED);
+			}
+			break;
+		case 8:
+			// PIT_STOPS
+			// Leemos la primera fila y la primera columna debe tener el texto "Pit"
+			firstColumText = getFirstColumnText(currentTable);
+			if (firstColumText.equals("Pit")) {
+				// Se trata de la tabla de pitstops
+				result = PARTIAL_PARSERS.get(PIT_STOPS);
+			} else {
+				// Si no viene la de pitstops, o viene la de final de carrera o viene la de
+				// problemas técnicos
+				// Vemos si es la de problemas tecnicos
 				String headerText = getFirstHeaderText(currentTable);
-				if (headerText.equals("Technical problems")) {
-					//Es la tabla de problemas tecnicos
+				if (headerText.equals(TECHNICAL_PROBLEMS)) {
+					// Es la de problemas técnicos
 					result = PARTIAL_PARSERS.get(TECH_PROBLEMS);
-				}
-				else {
-					//Es la tabla de fin de carrera
+				} else {
+					// En cualquier otro caso es la de fin de carrera
 					result = PARTIAL_PARSERS.get(FINISH_FUEL_AND_TYRES);
 				}
-				break;
-			//case 9:
-			//Si llegamos a una novena tabla, solo puede ser la de final de carrera, así que entra dentro del caso por defecto
-			//	break;
-			default:
+			}
+			break;
+		// case 8:
+		case 9:
+			// Si es la octava tabla puede ser o problemas técnicos o final de carrera
+			String headerText = getFirstHeaderText(currentTable);
+			if (headerText.equals(TECHNICAL_PROBLEMS)) {
+				// Es la tabla de problemas tecnicos
+				result = PARTIAL_PARSERS.get(TECH_PROBLEMS);
+			} else {
+				// Es la tabla de fin de carrera
+				result = PARTIAL_PARSERS.get(FINISH_FUEL_AND_TYRES);
+			}
+			break;
+		// case 9:
+		// Si llegamos a una novena tabla, solo puede ser la de final de carrera, así
+		// que entra dentro del caso por defecto
+		// break;
+		default:
+			if (!driverEnergy) {
+				//Si la hoja no tiene información de driver energy, el número de tabla me da el parser
 				result = PARTIAL_PARSERS.get(nTable);
-				break;
+			}
+			else {
+				//En caso contrario, el número de tabla es uno más que la correspondencia con el parser
+				result = PARTIAL_PARSERS.get(nTable - 1);
+			}
+			break;
 		}
-		
+
 		return result;
 	}
 	
@@ -727,7 +831,7 @@ public class RaceHtmlParser implements GPRORaceSheetParser {
 	/**
 	 * 
 	 */
-	private static HashMap<Integer, RacePartialParser> PARTIAL_PARSERS = new HashMap<Integer, RaceHtmlParser.RacePartialParser>();
+	private static HashMap<Integer, RaceHtmlParser.RacePartialParser> PARTIAL_PARSERS = new HashMap<Integer, RaceHtmlParser.RacePartialParser>();
 	
 	/**
 	 * 
@@ -749,6 +853,7 @@ public class RaceHtmlParser implements GPRORaceSheetParser {
 	public static final Integer PIT_STOPS = new Integer(7);
 	public static final Integer TECH_PROBLEMS = new Integer(8);
 	public static final Integer FINISH_FUEL_AND_TYRES = new Integer(9);
+	public static final Integer DRIVER_ENERGY = new Integer(10);
 	
 	/**
 	 * 
@@ -757,6 +862,7 @@ public class RaceHtmlParser implements GPRORaceSheetParser {
 		PARTIAL_PARSERS.put(SEASON_AND_TRACK, new SeasonAndTrackPartialParser());
 		PARTIAL_PARSERS.put(LAP_TIMES, new LapTimesPartialParser());
 		PARTIAL_PARSERS.put(RISKS_USED, new RisksUsedPartialParser());
+		PARTIAL_PARSERS.put(DRIVER_ENERGY, new DriverEnergyPartialParser());
 		PARTIAL_PARSERS.put(SETUP_USED, new SetupUsedPartialParser());
 		PARTIAL_PARSERS.put(CAR_PARTS, new CarPartsPartialParser());
 		PARTIAL_PARSERS.put(START_FUEL, new StartFuelPartialParser());

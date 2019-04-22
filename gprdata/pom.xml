@@ -139,14 +139,14 @@
 	<dependency>
     	<groupId>org.jlobato.gpro</groupId>
     	<artifactId>gprsheetparser</artifactId>
-    	<version>0.0.1</version>
+    	<version>0.0.2</version>
 	</dependency>
 	
 	<!-- GproUtils -->
 	<dependency>
     	<groupId>org.jlobato.gpro</groupId>
     	<artifactId>gpro-utils</artifactId>
-    	<version>0.0.1</version>
+    	<version>0.0.2</version>
 	</dependency>
 	
 	<!-- GproMyBatis -->

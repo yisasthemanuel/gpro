@@ -3,6 +3,7 @@ package org.jlobato.gpro.sheetparser.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import org.jlobato.gpro.sheetparser.GPRORaceSheetParserFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +21,7 @@ public class BrandsHatchS49XLSXTest extends BaseSheetParserTest {
 	@Before
 	public void setUp() throws Exception {
 		//Cargamos la hoja de cálculo
-		loadFromClassPath("/Brands_Hatch_S49.xlsx");
+		loadFromClassPath("/xls/Brands_Hatch_S49.xlsx");
 	}
 
 	/**
@@ -62,6 +63,11 @@ public class BrandsHatchS49XLSXTest extends BaseSheetParserTest {
 		
 		assertEquals(8, model.getEndTyres().intValue());
 		assertEquals(2, model.getEndFuel().intValue());
+	}
+
+	@Override
+	public int getParserType() {
+		return GPRORaceSheetParserFactory.EXCEL_PARSER;
 	}
 
 }

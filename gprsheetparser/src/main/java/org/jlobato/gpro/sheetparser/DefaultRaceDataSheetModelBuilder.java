@@ -33,7 +33,6 @@ class DefaultRaceDataSheetModelBuilder implements RaceDataSheetModelBuilder {
 	private String techProblemLapInfo;
 	private String techProblemDescriptionInfo;
 	
-
 	/**
 	 * 
 	 */
@@ -536,10 +535,29 @@ class DefaultRaceDataSheetModelBuilder implements RaceDataSheetModelBuilder {
 		this.techProblemDescriptionInfo = techProblemDescriptionInfo;
 	}
 
+	@Override
 	/**
 	 * 
 	 */
 	public void addNewTechProblem() {
 		this.product.addTechProblem(new TechProblemInfo(techProblemLapInfo, techProblemDescriptionInfo));
+	}
+
+	@Override
+	/**
+	 * 
+	 */
+	public RaceDataSheetModelBuilder setDriverEnergyStart(int energyStart) {
+		this.product.setEnergyStart(energyStart);
+		return this;
+	}
+
+	@Override
+	/**
+	 * 
+	 */
+	public RaceDataSheetModelBuilder setDriverEnergyEnd(int energyEnd) {
+		this.product.setEnergyEnd(energyEnd);
+		return this;
 	}
 }

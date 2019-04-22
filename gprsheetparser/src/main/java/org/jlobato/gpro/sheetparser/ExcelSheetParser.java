@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.jlobato.gpro.utils.GPROUtils;
 
 /**
  * 
@@ -18,8 +19,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  */
 class ExcelSheetParser implements GPRORaceSheetParser {
-
-	private static final String TECHNICAL_PROBLEMS = "Technical problems";
 
 	/**
 	 * 
@@ -233,7 +232,14 @@ class ExcelSheetParser implements GPRORaceSheetParser {
 					case RACE_RISKS_USED_MODE:
 						parseRisksInfo(celda, type);
 						break;
+					case DRIVER_ENERGY_MODE:
+						parseDriverEnergy(celda, type);
+						break;
 					case RACE_SETUP_USED_MODE:
+						if (type == Cell.CELL_TYPE_STRING && celda.getStringCellValue().startsWith(GPRORaceSheetParser.DRIVER_PREFIX)) {
+							currentMode = DRIVER_ENERGY_MODE;
+							break;
+						}
 						//Este modo va después de RACE_RISKS_USED_MODE
 						//Antes comprobamos que lleva clearWetRisks o no
 						if (!clearWetRisksChecked) {
@@ -258,7 +264,7 @@ class ExcelSheetParser implements GPRORaceSheetParser {
 						parseStartFuel(celda, type);
 						break;
 					case RACE_TYRES_AFTER_RACE_MODE:
-						if (type == Cell.CELL_TYPE_STRING && celda.getStringCellValue().equals(TECHNICAL_PROBLEMS)) {
+						if (type == Cell.CELL_TYPE_STRING && celda.getStringCellValue().equals(GPRORaceSheetParser.TECHNICAL_PROBLEMS)) {
 							currentMode = RACE_TECH_PROBLEMS_MODE;
 							break;
 						}
@@ -316,6 +322,13 @@ class ExcelSheetParser implements GPRORaceSheetParser {
 			}
 		}
 	}
+	
+	private void parseDriverEnergy(Cell celda, int type) {
+		if (type == Cell.CELL_TYPE_STRING) {
+			raceBuilder.setDriverEnergyStart(GPROUtils.getDriverEnergyAtStart(celda.getStringCellValue()));
+			raceBuilder.setDriverEnergyEnd(GPROUtils.getDriverEnergyAtEnd(celda.getStringCellValue()));
+		}
+	}
 
 	/**
 	 * 
@@ -348,6 +361,7 @@ class ExcelSheetParser implements GPRORaceSheetParser {
 		else if ((currentMode == RACE_TRACK_AND_SEASON_MODE) && currentRow == 4) result = RACE_LAPS_MODE;
 		else if (currentMode == RACE_LAPS_MODE && isThereAGap) result = RACE_RISKS_USED_MODE;
 		else if (currentMode == RACE_RISKS_USED_MODE && isThereAGap) result = RACE_SETUP_USED_MODE;
+		else if (currentMode == DRIVER_ENERGY_MODE && isThereAGap) result = RACE_SETUP_USED_MODE;
 		else if (currentMode == RACE_SETUP_USED_MODE && isThereAGap) result = RACE_PARTS_PRE_LVL_MODE;
 		else if (currentMode == RACE_PARTS_PRE_LVL_MODE) result = RACE_PARTS_LVL_MODE;
 		else if (currentMode == RACE_PARTS_LVL_MODE) result = RACE_PARTS_START_WEAR_MODE;

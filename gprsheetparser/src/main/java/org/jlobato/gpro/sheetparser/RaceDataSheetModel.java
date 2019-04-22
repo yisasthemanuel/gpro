@@ -237,6 +237,16 @@ public class RaceDataSheetModel implements Serializable {
 	 * 
 	 */
 	private Integer endFuel;
+	
+	/**
+	 * 
+	 */
+	private Integer energyStart;
+	
+	/**
+	 * 
+	 */
+	private Integer energyEnd;
 
 	/**
 	 * Constructor
@@ -762,48 +772,6 @@ public class RaceDataSheetModel implements Serializable {
 		getStopsList().add(stopInfo);
 	}
 
-	@Override
-	public String toString() {
-		return "RaceDataSheetModel [\n\ttrackName=" + trackName + ", season="
-				+ season + ", seasonNumber=" + seasonNumber + ",\n\tlapsList="
-				+ lapsList + ",\n\tstopsList=" + stopsList + "\n\ttechProblemsList=" + techProblemsList
-				+ ",\n\tovertakeRisks=" + overtakeRisks + ", defendRisks=" + defendRisks
-				+ ", clearDryRisks=" + clearDryRisks + ", clearWetRisks="
-				+ clearWetRisks + ", malfunctRisks=" + malfunctRisks
-				+ ",\n\tfrontWingSetup=" + frontWingSetup + ", rearWingSetup="
-				+ rearWingSetup + ", engineSetup=" + engineSetup
-				+ ", brakesSetup=" + brakesSetup + ", gearboxSetup=" + gearboxSetup
-				+ ", suspensionSetup=" + suspensionSetup + ",\n\tchassisLevel="
-				+ chassisLevel + ", engineLevel=" + engineLevel
-				+ ", frontWingLevel=" + frontWingLevel + ", rearWingLevel="
-				+ rearWingLevel + ", underbodyLevel=" + underbodyLevel
-				+ ", sidepodsLevel=" + sidepodsLevel + ", coolingLevel="
-				+ coolingLevel + ", gearboxLevel=" + gearboxLevel
-				+ ", brakesLevel=" + brakesLevel + ", suspensionLevel="
-				+ suspensionLevel + ", electronicsLevel=" + electronicsLevel
-				+ ",\n\tchassisStartWear=" + chassisStartWear
-				+ ", engineStartWear=" + engineStartWear
-				+ ", frontWingStartWear=" + frontWingStartWear
-				+ ", rearWingStartWear=" + rearWingStartWear
-				+ ", underbodyStartWear=" + underbodyStartWear
-				+ ", sidepodsStartWear=" + sidepodsStartWear
-				+ ", coolingStartWear=" + coolingStartWear
-				+ ", gearboxStartWear=" + gearboxStartWear
-				+ ", brakesStartWear=" + brakesStartWear
-				+ ", suspensionStartWear=" + suspensionStartWear
-				+ ", electronicsStartWear=" + electronicsStartWear
-				+ ",\n\tchassisEndWear=" + chassisEndWear + ", engineEndWear="
-				+ engineEndWear + ", frontWingEndWear=" + frontWingEndWear
-				+ ", rearWingEndWear=" + rearWingEndWear
-				+ ", underbodyEndWear=" + underbodyEndWear
-				+ ", sidepodsEndWear=" + sidepodsEndWear + ", coolingEndWear="
-				+ coolingEndWear + ", gearboxEndWear=" + gearboxEndWear
-				+ ", brakesEndWear=" + brakesEndWear + ", suspensionEndWear="
-				+ suspensionEndWear + ", electronicsEndWear="
-				+ electronicsEndWear + ",\n\tstartFuel=" + startFuel
-				+ ", endTyres=" + endTyres + ", endFuel=" + endFuel + "\n]";
-	}
-
 	/**
 	 * 
 	 * @param techProblemInfo
@@ -818,6 +786,64 @@ public class RaceDataSheetModel implements Serializable {
 	 */
 	public List<TechProblemInfo> getTechProblemsList() {
 		return techProblemsList;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Integer getEnergyStart() {
+		return energyStart;
+	}
+
+	/**
+	 * 
+	 * @param energyStart
+	 */
+	public void setEnergyStart(Integer energyStart) {
+		this.energyStart = energyStart;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Integer getEnergyEnd() {
+		return energyEnd;
+	}
+
+	/**
+	 * 
+	 * @param energyEnd
+	 */
+	public void setEnergyEnd(Integer energyEnd) {
+		this.energyEnd = energyEnd;
+	}
+
+	@Override
+	public String toString() {
+		return "RaceDataSheetModel [trackName=" + trackName + ", season=" + season + ", seasonNumber=" + seasonNumber
+				+ ", lapsList=" + lapsList + ", stopsList=" + stopsList + ", techProblemsList=" + techProblemsList
+				+ ", overtakeRisks=" + overtakeRisks + ", defendRisks=" + defendRisks + ", clearDryRisks="
+				+ clearDryRisks + ", clearWetRisks=" + clearWetRisks + ", malfunctRisks=" + malfunctRisks
+				+ ", frontWingSetup=" + frontWingSetup + ", rearWingSetup=" + rearWingSetup + ", engineSetup="
+				+ engineSetup + ", brakesSetup=" + brakesSetup + ", gearboxSetup=" + gearboxSetup + ", suspensionSetup="
+				+ suspensionSetup + ", chassisLevel=" + chassisLevel + ", engineLevel=" + engineLevel
+				+ ", frontWingLevel=" + frontWingLevel + ", rearWingLevel=" + rearWingLevel + ", underbodyLevel="
+				+ underbodyLevel + ", sidepodsLevel=" + sidepodsLevel + ", coolingLevel=" + coolingLevel
+				+ ", gearboxLevel=" + gearboxLevel + ", brakesLevel=" + brakesLevel + ", suspensionLevel="
+				+ suspensionLevel + ", electronicsLevel=" + electronicsLevel + ", chassisStartWear=" + chassisStartWear
+				+ ", engineStartWear=" + engineStartWear + ", frontWingStartWear=" + frontWingStartWear
+				+ ", rearWingStartWear=" + rearWingStartWear + ", underbodyStartWear=" + underbodyStartWear
+				+ ", sidepodsStartWear=" + sidepodsStartWear + ", coolingStartWear=" + coolingStartWear
+				+ ", gearboxStartWear=" + gearboxStartWear + ", brakesStartWear=" + brakesStartWear
+				+ ", suspensionStartWear=" + suspensionStartWear + ", electronicsStartWear=" + electronicsStartWear
+				+ ", chassisEndWear=" + chassisEndWear + ", engineEndWear=" + engineEndWear + ", frontWingEndWear="
+				+ frontWingEndWear + ", rearWingEndWear=" + rearWingEndWear + ", underbodyEndWear=" + underbodyEndWear
+				+ ", sidepodsEndWear=" + sidepodsEndWear + ", coolingEndWear=" + coolingEndWear + ", gearboxEndWear="
+				+ gearboxEndWear + ", brakesEndWear=" + brakesEndWear + ", suspensionEndWear=" + suspensionEndWear
+				+ ", electronicsEndWear=" + electronicsEndWear + ", startFuel=" + startFuel + ", endTyres=" + endTyres
+				+ ", endFuel=" + endFuel + ", energyStart=" + energyStart + ", energyEnd=" + energyEnd + "]";
 	}
 	
 	
