@@ -148,14 +148,29 @@ public class FachadaManager {
 	 */
 	public void updateManagerHistory(String codeManager, Short idSeason, Short idCategory, Short idGroup, Short idTyreBrand) {
 		ManagerHistoryExample example = new ManagerHistoryExample();
+		Short idManager = getManagerByCode(codeManager).getIdManager();
 		example.createCriteria()
-				.andIdManagerEqualTo(getManagerByCode(codeManager).getIdManager())
+				.andIdManagerEqualTo(idManager)
 				.andIdSeasonEqualTo(idSeason);
 		List<ManagerHistory> records = managerHistoryDAO.selectByExample(example);
-		records.forEach(record -> {
-			record.withIdCategory(idCategory).withIdGroup(idGroup).withIdTyreBrand(idTyreBrand);
-			managerHistoryDAO.updateByPrimaryKey(record);
-		});
+		if (records.isEmpty()) {
+			//Insertamos
+			ManagerHistory record = new ManagerHistory()
+					.withIdManager(idManager)
+					.withIdSeason(idSeason)
+					.withIdCategory(idCategory)
+					.withIdGroup(idGroup)
+					.withIdTyreBrand(idTyreBrand);
+			managerHistoryDAO.insert(record);
+		}
+		else {
+			//Actualizamos el existente
+			records.forEach(record -> {
+				record.withIdCategory(idCategory).withIdGroup(idGroup).withIdTyreBrand(idTyreBrand);
+				managerHistoryDAO.updateByPrimaryKey(record);
+			});
+		}
+
 		
 	}
 	

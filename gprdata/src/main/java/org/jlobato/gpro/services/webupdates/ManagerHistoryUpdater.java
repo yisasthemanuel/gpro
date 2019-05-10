@@ -38,17 +38,19 @@ public class ManagerHistoryUpdater {
 			Short idGroup = GPROUtils.castIfNotNull(GPROUtils.getGroupId(season.getGroup()), Short.class);
 			
 			if (idSeason != null && idCategory != null) {
-				managerService.addManagerHistory(manager.getCodeManager(),
+				//managerService.addManagerHistory(manager.getCodeManager(),
+				managerService.updateManagerHistory(manager.getCodeManager(),
+						idSeason,
 						idCategory,
 						idGroup,
-						idSeason,
 						tyreBrand);
 			}
 		}
 	}
 	
 	public static void main(String args[]) {
-		AbstractApplicationContext contexto = new FileSystemXmlApplicationContext("C:/Desarrollo/gpro-dev/gpro/gprdata/src/main/webapp/WEB-INF/spring-applicationContext.xml");
+		System.setProperty("entorno", "I");
+		AbstractApplicationContext contexto = new FileSystemXmlApplicationContext("C:/Desarrollo/eclipse/ws/gpro/gprdata/src/main/webapp/WEB-INF/spring-applicationContext.xml");
 		GPROWebSession session = GPROWebSessionFactory.getGPROWebSession();
 		
 		FachadaManager managerService = contexto.getBean(FachadaManager.class);

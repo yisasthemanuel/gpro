@@ -19,7 +19,25 @@
 	
 	<c:url var="saveStandingsAction" value="/gprcup/saveStandings.html"/>	
 	<c:url var="showStandingsAction" value="/gprcup/showStandings.html"/>	
-	<c:url var="reloadAction" value="/gprcup/main.html"/>	
+	<c:url var="reloadAction" value="/gprcup/main.html"/>
+	
+	<c:if test="${(!empty lastSeason) || (!empty lastRace)}">
+		<c:set var="seedingAction" scope="request" value="/gprcup/seeding.html?"/>
+		<c:set var="statisticsAction" scope="request" value="/gprcup/statistics.html?"/>
+		<c:if test="${!empty lastSeason}">
+			<c:set var="seedingAction" scope="request" value="${seedingAction}currentSeason=${lastSeason}&"/>
+			<c:set var="statisticsAction" scope="request" value="${statisticsAction}currentSeason=${lastSeason}&"/>
+		</c:if>
+		<c:if test="${!empty lastRace}">
+			<c:set var="seedingAction" scope="request" value="${seedingAction}currentRace=${lastRace}&"/>
+			<c:set var="statisticsAction" scope="request" value="${statisticsAction}currentRace=${lastRace}&"/>
+		</c:if>
+	</c:if>
+	
+	
+	<c:url var="seedingActionURL" value="${seedingAction}"/>	
+	<c:url var="statisticsActionURL" value="${statisticsAction}"/>	
+		
 
 	<form method="post" name="theForm" id="theForm" action="${showStandingsAction}" id="formSaveStandings">
 	
@@ -251,6 +269,14 @@
 
 	<input type="submit" value="<spring:message code="label.save"/>" formaction="${saveStandingsAction}">
 	<input type="submit" value="<spring:message code="label.show"/>">
+	<br>
+	<br>
+	<div>
+		<a href="${seedingActionURL}"><spring:message code="label.seeding"/></a>
+	</div>
+	<div>
+		<a href="${statisticsActionURL}"><spring:message code="label.statistics"/></a>
+	</div>
 	
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 

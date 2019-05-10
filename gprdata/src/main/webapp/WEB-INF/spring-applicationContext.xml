@@ -48,7 +48,9 @@
 	    <property name="defaultLocale" value="en"/>
 	</bean>
 	
-	
+
+	<bean id="templateService" class="org.jlobato.gpro.services.templates.FreemarkerTemplateService">
+	</bean>	
 		
 	<!-- AUTENTICACIÓN -->
 	<!-- Creamos el delegado de negocio para la autenticación -->

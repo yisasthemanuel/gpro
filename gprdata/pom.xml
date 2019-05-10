@@ -4,7 +4,7 @@
   <groupId>org.jlobato.gpro</groupId>
   <artifactId>gprdata</artifactId>
   <packaging>war</packaging>
-  <version>0.0.1</version>
+  <version>0.0.1.1</version>
   <name>GPRO Data Webapp</name>
   <url>http://gprodata.yisasthemanuel.org</url>
   <dependencies>
@@ -127,6 +127,13 @@
 		<version>2.2.2</version>
 	</dependency>
 	
+	<!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
+	<dependency>
+	    <groupId>org.freemarker</groupId>
+	    <artifactId>freemarker</artifactId>
+	    <version>2.3.23</version>
+	</dependency>
+	
 	<!-- ICALC4J -->
 	<!-- https://mvnrepository.com/artifact/org.mnode.ical4j/ical4j -->
 	<dependency>
@@ -146,14 +153,14 @@
 	<dependency>
     	<groupId>org.jlobato.gpro</groupId>
     	<artifactId>gpro-utils</artifactId>
-    	<version>0.0.2</version>
+    	<version>0.0.2.1</version>
 	</dependency>
 	
 	<!-- GproMyBatis -->
 	<dependency>
     	<groupId>org.jlobato.gpro</groupId>
     	<artifactId>gpro-mybatis</artifactId>
-    	<version>0.0.1</version>
+    	<version>0.0.1.1</version>
 	</dependency>
 	
 	<!-- GproWebSession -->

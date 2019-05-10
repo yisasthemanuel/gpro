@@ -55,6 +55,7 @@ public class FachadaTeam {
      * @return
      */
     public List<Team> getAvailableTeams(String userId) {
-    	return null;
+    	TeamExample example = new TeamExample();
+    	return teamDAO.selectByExample(example);
     }
 }

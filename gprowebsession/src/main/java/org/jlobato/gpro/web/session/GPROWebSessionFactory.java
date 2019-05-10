@@ -25,8 +25,9 @@ public class GPROWebSessionFactory {
 	public static void main(String[] args) {
 		GPROWebSession session = GPROWebSessionFactory.getGPROWebSession();
 		
-		System.out.println("Logged ind: " + session.isLogged());
+		System.out.println("Logged in: " + session.isLogged());
 		System.out.println("New Style: " + session.isNewStyle());
+		System.out.println("Manager ID: " + session.getIdManager());
 		List<ManagerHistoryXBean> managerHistory = session.getManagerHistory("52243");
 		System.out.println("Manager history: " + managerHistory);
 		

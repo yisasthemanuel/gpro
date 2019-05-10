@@ -34,7 +34,7 @@
 				<tr>
 					<td>
 					<div id="manager">
-						<input type="text" value="ERWIN" id="manager" name="manager" maxlength="5" size="10"></input>
+						<input type="text" value="ERWIN" id="manager" name="manager" maxlength="5" size="10" disabled></input>
 					</div>
 					</td>
 					<td>
@@ -47,7 +47,7 @@
 				<tr>
 					<td>
 					<div id="manager">
-						<input type="text" value="CHRIS" id="manager" name="manager" maxlength="5" size="10"></input>
+						<input type="text" value="CHRIS" id="manager" name="manager" maxlength="5" size="10" disabled></input>
 					</div>
 					</td>
 					<td>
@@ -60,7 +60,7 @@
 				<tr>
 					<td>
 					<div id="manager">
-						<input type="text" value="EDWIN" id="manager" name="manager" maxlength="5" size="10"></input>
+						<input type="text" value="EDWIN" id="manager" name="manager" maxlength="5" size="10" disabled></input>
 					</div>
 					</td>
 					<td>
@@ -73,7 +73,7 @@
 				<tr>
 					<td>
 					<div id="manager">
-						<input type="text" value="CARLO" id="manager" name="manager" maxlength="5" size="10"></input>
+						<input type="text" value="CARLO" id="manager" name="manager" maxlength="5" size="10" disabled></input>
 					</div>
 					</td>
 					<td>
@@ -86,7 +86,7 @@
 				<tr>
 					<td>
 					<div id="manager">
-						<input type="text" value="JESUS" id="manager" name="manager" maxlength="5" size="10"></input>
+						<input type="text" value="JESUS" id="manager" name="manager" maxlength="5" size="10" disabled></input>
 					</div>
 					</td>
 					<td>
@@ -99,7 +99,7 @@
 				<tr>
 					<td>
 					<div id="manager">
-						<input type="text" value="DIEGO" id="manager" name="manager" maxlength="5" size="10"></input>
+						<input type="text" value="DIEGO" id="manager" name="manager" maxlength="5" size="10" disabled></input>
 					</div>
 					</td>
 					<td>
@@ -112,7 +112,7 @@
 				<tr>
 					<td>
 					<div id="manager">
-						<input type="text" value="NEVZA" id="manager" name="manager" maxlength="5" size="10"></input>
+						<input type="text" value="NEVZA" id="manager" name="manager" maxlength="5" size="10" disabled></input>
 					</div>
 					</td>
 					<td>
@@ -125,7 +125,7 @@
 				<tr>
 					<td>
 					<div id="manager">
-						<input type="text" value="PABLO" id="manager" name="manager" maxlength="5" size="10"></input>
+						<input type="text" value="PABLO" id="manager" name="manager" maxlength="5" size="10" disabled></input>
 					</div>
 					</td>
 					<td>
@@ -138,7 +138,7 @@
 				<tr>
 					<td>
 					<div id="manager">
-						<input type="text" value="GEOFF" id="manager" name="manager" maxlength="5" size="10"></input>
+						<input type="text" value="GEOFF" id="manager" name="manager" maxlength="5" size="10" disabled></input>
 					</div>
 					</td>
 					<td>
@@ -151,7 +151,7 @@
 				<tr>
 					<td>
 					<div id="manager">
-						<input type="text" value="MIKKO" id="manager" name="manager" maxlength="5" size="10"></input>
+						<input type="text" value="MIKKO" id="manager" name="manager" maxlength="5" size="10" disabled></input>
 					</div>
 					</td>
 					<td>

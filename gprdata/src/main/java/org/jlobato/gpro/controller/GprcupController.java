@@ -1,9 +1,11 @@
 package org.jlobato.gpro.controller;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.jlobato.gpro.dao.mybatis.facade.FachadaGPRCup;
@@ -14,6 +16,11 @@ import org.jlobato.gpro.dao.mybatis.model.Manager;
 import org.jlobato.gpro.dao.mybatis.model.Race;
 import org.jlobato.gpro.dao.mybatis.model.Season;
 import org.jlobato.gpro.dao.mybatis.model.Team;
+import org.jlobato.gpro.services.cup.GPROCupService;
+import org.jlobato.gpro.services.templates.TemplateException;
+import org.jlobato.gpro.services.templates.TemplateModelBuilder;
+import org.jlobato.gpro.services.templates.TemplateService;
+import org.jlobato.gpro.utils.RomanNumeral;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  */
 @Controller
+@RequestMapping("/gprcup")
 public class GprcupController {
 	
 	
@@ -37,20 +45,27 @@ public class GprcupController {
 	 */
 	private static final transient Logger logger = LoggerFactory.getLogger(GprcupController.class);
 	
+	@Autowired
+	private TemplateService templateService;
+	
 	/**
 	 * 
 	 */
 	@Autowired
 	private FachadaSeason fachadaSeason;
 	
-	@Autowired
+
 	/**
 	 * 
 	 */
+	@Autowired
 	private FachadaManager fachadaManager;
 	
 	@Autowired
 	private FachadaGPRCup fachadaCup;
+	
+	@Autowired
+	private GPROCupService cupService;
 
 	/**
 	 * 
@@ -79,7 +94,7 @@ public class GprcupController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/gprcup/main.html", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = "/main.html", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView main(HttpServletRequest request,
 			 @RequestParam(value="currentSeason", required=false) String currentSeason,
 			HttpSession session)	{
@@ -132,7 +147,7 @@ public class GprcupController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/gprcup/showStandings.html", method = RequestMethod.POST)
+	@RequestMapping(value = "/showStandings.html", method = RequestMethod.POST)
 	public ModelAndView showStandings(HttpServletRequest request, HttpSession session) {
 		logger.debug("GprcupController.showStandings - begin");
 		
@@ -344,7 +359,7 @@ public class GprcupController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/gprcup/saveStandings.html", method = RequestMethod.POST)
+	@RequestMapping(value = "/saveStandings.html", method = RequestMethod.POST)
 	public ModelAndView saveStandings(HttpServletRequest request, HttpSession session) {
 		logger.debug("GprcupController.saveStandings - begin");
 		
@@ -364,5 +379,101 @@ public class GprcupController {
 		logger.debug("GprcupController.saveStandings - end");
 		
 		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/seeding.html", method = RequestMethod.GET)
+	public void exportSeeding(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value="currentSeason", required=false) String idSeason,
+			@RequestParam(value="currentRace", required=false) String idRace) throws TemplateException {
+		logger.debug("GprcupController.exportSeeding - begin");
+        ModelAndView modelAndView = new ModelAndView();
+        
+        Season season = null;
+        if (idSeason != null) {
+        	season = fachadaSeason.getSeason(new Integer(idSeason));
+        } else {
+        	season = fachadaSeason.getCurrentSeason();
+        }
+        
+        TemplateModelBuilder builder = TemplateModelBuilder.newInstance();
+        builder.add("stats", cupService.getSeeding(season))
+        	.add("edition_no", RomanNumeral.toRoman((season.getIdSeason() - cupService.getSeasonForFirstEdition()) + 1))
+        	.add("participants", 8);
+        
+        String result = templateService.processTemplate("plantilla.seed.ftl", builder.build());
+		logger.debug("GprcupController.exportSeeding - RESULT - " + result);
+		
+		
+        modelAndView.addObject("currentSeason", season.getIdSeason());
+        if (idRace != null) {
+            modelAndView.addObject("currentRace", idRace);
+        }
+        
+        //TODO Redirigir a una página genérica de download
+        
+        if (result != null) {
+        	response.setContentType("text/plain");
+        	response.addHeader("Content-Disposition", "attachment; filename=" + "seeding_post.txt");
+        	try {
+				response.getWriter().write(result);
+			} catch (IOException e) {
+				//TODO - Tratar esto con una página de error
+				logger.error(e.getMessage(), e);
+			}
+        }
+        
+		logger.debug("GprcupController.exportSeeding - end");
+        
+        
+        //Hago el sendredirect para que pille el tema gprcup
+//        modelAndView.setViewName("redirect:/gprcup/main.html");        
+//		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/statistics.html", method = RequestMethod.GET)
+	public void exportStatistics(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value="currentSeason", required=false) String idSeason,
+			@RequestParam(value="currentRace", required=false) String idRace
+			) throws TemplateException {
+		logger.debug("GprcupController.exportStatistics - begin");
+        ModelAndView modelAndView = new ModelAndView();
+        
+        Season season = null;
+        if (idSeason != null) {
+        	season = fachadaSeason.getSeason(new Integer(idSeason));
+        } else {
+        	season = fachadaSeason.getCurrentSeason();
+        }
+        
+        TemplateModelBuilder builder = TemplateModelBuilder.newInstance();
+        builder.add("stats", cupService.getStatistics(season));
+		
+        String result = templateService.processTemplate("statistics.report.ftl", builder.build());
+		logger.debug("GprcupController.exportStatistics - RESULT - " + result);
+		
+        modelAndView.addObject("currentSeason", season.getIdSeason());
+        if (idRace != null) {
+        	modelAndView.addObject("currentRace", idRace);
+        }
+        
+        
+        //TODO Redirigir a una página genérica de download
+        if (result != null) {
+        	response.setContentType("text/plain");
+        	response.addHeader("Content-Disposition", "attachment; filename=" + "statistics_post.txt");
+        	try {
+				response.getWriter().write(result);
+			} catch (IOException e) {
+				//TODO - Tratar esto con una página de error
+				logger.error(e.getMessage(), e);
+			}
+        }
+        
+		logger.debug("GprcupController.exportStatistics - end");
+        
+        //Hago el sendredirect para que pille el tema gprcup
+//        modelAndView.setViewName("redirect:/gprcup/main.html");        
+//		logger.debug("GprcupController.exportStatistics - end");
+//		return modelAndView;
 	}
 }

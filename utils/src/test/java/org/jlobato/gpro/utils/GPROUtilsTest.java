@@ -39,5 +39,22 @@ public class GPROUtilsTest {
 		assertEquals(98, GPROUtils.getDriverEnergyAtStart(driverEnergyExample));
 		assertEquals(90, GPROUtils.getDriverEnergyAtEnd(driverEnergyExample));
 	}
+	
+	@Test
+	public void testRomanNumeral() {
+	    assertEquals("MMMMCMXCIX", RomanNumeral.toRoman(4999));
+	    assertEquals("CMXCIX", RomanNumeral.toRoman(999));
+	    assertEquals("CMLXXXIX", RomanNumeral.toRoman(989));
+	    assertEquals("DCXXVI", RomanNumeral.toRoman(626));
+	    assertEquals("DCXXIV", RomanNumeral.toRoman(624));
+	    assertEquals("CDXCVIII", RomanNumeral.toRoman(498));
+	    assertEquals("CXXIII", RomanNumeral.toRoman(123));
+	    assertEquals("XCIX", RomanNumeral.toRoman(99));
+	    assertEquals("LI", RomanNumeral.toRoman(51));
+	    assertEquals("XLIX", RomanNumeral.toRoman(49));
+	    //Mis tests especiales
+	    assertEquals("MCMLXXVI", RomanNumeral.toRoman(1976));
+	    assertEquals("MCMLXXII", RomanNumeral.toRoman(1972));
+	}
 
 }

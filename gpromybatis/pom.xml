@@ -2,7 +2,7 @@
 <modelVersion>4.0.0</modelVersion>
 <groupId>org.jlobato.gpro</groupId>
 <artifactId>gpro-mybatis</artifactId>
-<version>0.0.1</version>
+<version>0.0.1.1</version>
 <name>GPRO MyBatis Persistence</name>
 <description>GPRO Database Persistence using MyBatis</description>
   <dependencies>

@@ -65,14 +65,14 @@
     <a href="?lang=en">en</a> 
     <a href="?lang=es">es</a>
 	<c:if test="${pageContext.request.userPrincipal.name != null}">
-		<a href="javascript:logout()">Logout (${pageContext.request.userPrincipal.name})</button>
+		<a href="javascript:logout()">Logout (${pageContext.request.userPrincipal.name})</a>
 	</c:if>	
 </span>
 
 </form>
 
 
-<script>
+<script type="text/javascript">
 function logout() {
 	document.forms['logout'].submit();
 }
