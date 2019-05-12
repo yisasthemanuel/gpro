@@ -23,8 +23,10 @@ public class ManagerHistoryTest extends MyBatisBaseTest {
 		managerService.addManagerHistory("JESUS",
 				categoryService.getCategoryByCode("R").getIdCategory(),
 				new Short((short)79),
-				new Short((short)17),
+				new Short((short)16),
 				tyresService.getTyreBrand("PI").getIdTyreBrand());
+		
+		//TODO - Meter código de borrado
 	}
 
 }

@@ -446,7 +446,7 @@ public class GprcupController {
         }
         
         TemplateModelBuilder builder = TemplateModelBuilder.newInstance();
-        builder.add("stats", cupService.getStatistics(season));
+        builder.add("stats", cupService.getStatistics(season)).add("editions_no", (season.getIdSeason() - cupService.getSeasonForFirstEdition()) + 1);
 		
         String result = templateService.processTemplate("statistics.report.ftl", builder.build());
 		logger.debug("GprcupController.exportStatistics - RESULT - " + result);

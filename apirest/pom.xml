@@ -30,7 +30,7 @@
 		<dependency>
 	    	<groupId>org.jlobato.gpro</groupId>
 	    	<artifactId>gpro-mybatis</artifactId>
-	    	<version>0.0.1</version>
+	    	<version>0.0.1.2</version>
 		</dependency>
 		
 		<!--c3p0 0.9.1.2 connection pool -->

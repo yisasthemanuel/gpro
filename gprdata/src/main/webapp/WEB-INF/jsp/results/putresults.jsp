@@ -34,33 +34,7 @@
 				<tr>
 					<td>
 					<div id="manager">
-						<input type="text" value="ERWIN" id="manager" name="manager" maxlength="5" size="10" disabled></input>
-					</div>
-					</td>
-					<td>
-					<div id="racePosition">
-						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
-					</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td>
-					<div id="manager">
-						<input type="text" value="CHRIS" id="manager" name="manager" maxlength="5" size="10" disabled></input>
-					</div>
-					</td>
-					<td>
-					<div id="racePosition">
-						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
-					</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td>
-					<div id="manager">
-						<input type="text" value="EDWIN" id="manager" name="manager" maxlength="5" size="10" disabled></input>
+						<input type="text" value="NEVZA" id="manager" name="manager" maxlength="5" size="10" disabled></input>
 					</div>
 					</td>
 					<td>
@@ -86,46 +60,7 @@
 				<tr>
 					<td>
 					<div id="manager">
-						<input type="text" value="JESUS" id="manager" name="manager" maxlength="5" size="10" disabled></input>
-					</div>
-					</td>
-					<td>
-					<div id="racePosition">
-						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
-					</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td>
-					<div id="manager">
-						<input type="text" value="DIEGO" id="manager" name="manager" maxlength="5" size="10" disabled></input>
-					</div>
-					</td>
-					<td>
-					<div id="racePosition">
-						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
-					</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td>
-					<div id="manager">
-						<input type="text" value="NEVZA" id="manager" name="manager" maxlength="5" size="10" disabled></input>
-					</div>
-					</td>
-					<td>
-					<div id="racePosition">
-						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
-					</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td>
-					<div id="manager">
-						<input type="text" value="PABLO" id="manager" name="manager" maxlength="5" size="10" disabled></input>
+						<input type="text" value="EDWIN" id="manager" name="manager" maxlength="5" size="10" disabled></input>
 					</div>
 					</td>
 					<td>
@@ -152,6 +87,71 @@
 					<td>
 					<div id="manager">
 						<input type="text" value="MIKKO" id="manager" name="manager" maxlength="5" size="10" disabled></input>
+					</div>
+					</td>
+					<td>
+					<div id="racePosition">
+						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
+					</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+					<div id="manager">
+						<input type="text" value="DIEGO" id="manager" name="manager" maxlength="5" size="10" disabled></input>
+					</div>
+					</td>
+					<td>
+					<div id="racePosition">
+						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
+					</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+					<div id="manager">
+						<input type="text" value="JESUS" id="manager" name="manager" maxlength="5" size="10" disabled></input>
+					</div>
+					</td>
+					<td>
+					<div id="racePosition">
+						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
+					</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+					<div id="manager">
+						<input type="text" value="PABLO" id="manager" name="manager" maxlength="5" size="10" disabled></input>
+					</div>
+					</td>
+					<td>
+					<div id="racePosition">
+						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
+					</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+					<div id="manager">
+						<input type="text" value="ANIA" id="manager" name="manager" maxlength="5" size="10" disabled></input>
+					</div>
+					</td>
+					<td>
+					<div id="racePosition">
+						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
+					</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+					<div id="manager">
+						<input type="text" value="MARK" id="manager" name="manager" maxlength="5" size="10" disabled></input>
 					</div>
 					</td>
 					<td>
