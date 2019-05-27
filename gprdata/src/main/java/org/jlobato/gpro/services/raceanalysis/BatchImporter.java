@@ -27,17 +27,19 @@ public class BatchImporter {
 			System.setProperty("entorno", "I");
 			
 			//Cargamos el contexto spring (el mismo contexto que la aplicación web)
-			contexto = new FileSystemXmlApplicationContext("C:/Desarrollo/eclipse/ws/gpro/gprdata/src/main/webapp/WEB-INF/spring-applicationContext.xml");
+			//contexto = new FileSystemXmlApplicationContext("C:/Desarrollo/eclipse/ws/gpro/gprdata/src/main/webapp/WEB-INF/spring-applicationContext.xml");
+			//contexto = new FileSystemXmlApplicationContext("C:/Desarrollo/gpro/gprdata/src/main/webapp/WEB-INF/spring-applicationContext.xml");
+			contexto = new FileSystemXmlApplicationContext(args[0]);
 			System.out.println("Contexto cargado: " + contexto.getDisplayName());
 			
 			//Importador de carreras
 			SingleRaceImporter importer = contexto.getBean(SingleRaceImporter.class);
 			
 			//Directorio base
-			String baseDirectory = "C:/Desarrollo/gpro-dev/racedata";
+			//String baseDirectory = "C:/Desarrollo/gpro/racedata";
 			
 			//Los directorios de primer nivel son los managers (códigos)
-			File baseDir = new File(baseDirectory);
+			File baseDir = new File(args[1]);
 			File[] managerDirs = baseDir.listFiles(new FileFilter() {
 				public boolean accept(File pathname) {
 					return (pathname.isDirectory() && !pathname.getName().equals("ignore"));

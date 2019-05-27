@@ -50,7 +50,10 @@ public class ManagerHistoryUpdater {
 	
 	public static void main(String args[]) {
 		System.setProperty("entorno", "I");
-		AbstractApplicationContext contexto = new FileSystemXmlApplicationContext("C:/Desarrollo/eclipse/ws/gpro/gprdata/src/main/webapp/WEB-INF/spring-applicationContext.xml");
+		//AbstractApplicationContext contexto = new FileSystemXmlApplicationContext("C:/Desarrollo/eclipse/ws/gpro/gprdata/src/main/webapp/WEB-INF/spring-applicationContext.xml");
+		//AbstractApplicationContext contexto = new FileSystemXmlApplicationContext("C:/Desarrollo/gpro/gprdata/src/main/webapp/WEB-INF/spring-applicationContext.xml");
+		AbstractApplicationContext contexto = new FileSystemXmlApplicationContext(args[0]);
+		
 		GPROWebSession session = GPROWebSessionFactory.getGPROWebSession();
 		
 		FachadaManager managerService = contexto.getBean(FachadaManager.class);

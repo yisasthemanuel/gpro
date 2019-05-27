@@ -38,15 +38,17 @@ public class SingleRaceImporter {
 			System.setProperty("entorno", "I");
 			
 			//Cargamos el contexto spring (el mismo contexto que la aplicación web)
-			contexto = new FileSystemXmlApplicationContext("C:/Desarrollo/eclipse/ws/gpro/gprdata/src/main/webapp/WEB-INF/spring-applicationContext.xml");
+			//contexto = new FileSystemXmlApplicationContext("C:/Desarrollo/eclipse/ws/gpro/gprdata/src/main/webapp/WEB-INF/spring-applicationContext.xml");
+			//contexto = new FileSystemXmlApplicationContext("C:/Desarrollo/gpro/gprdata/src/main/webapp/WEB-INF/spring-applicationContext.xml");
+			contexto = new FileSystemXmlApplicationContext(args[0]);
 			System.out.println("Contexto cargado: " + contexto.getDisplayName());
 			
 			//Creamos nuestro objeto importador
 			SingleRaceImporter importer = contexto.getBean(SingleRaceImporter.class);
 
 			//Obtenemos el fichero excel para importar
-			String baseDirectory = "C:/Desarrollo/gpro-dev/racedata/JESUS/S68";
-			String file = "Adelaide_S68.xls";
+			String baseDirectory = args[1];
+			String file = args[2];
 			FileInputStream fis = new FileInputStream(new File(baseDirectory, file));
 			
 			//Importamos
