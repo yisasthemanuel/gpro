@@ -8,16 +8,11 @@ import org.jlobato.gpro.dao.mybatis.model.ManagerResult;
 import org.jlobato.gpro.dao.mybatis.model.ManagerResultExample;
 import org.jlobato.gpro.dao.mybatis.model.Race;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Repository
 @Transactional
-/**
- * 
- * @author JLOBATO
- *
- */
 public class FachadaManagerResultService {
 	
 	@Autowired

@@ -36,6 +36,17 @@ public class ManagerHistoryUpdater {
 			Optional<Category> optCategory = Optional.ofNullable(categoryService.getCategoryByCode(GPROUtils.getCategoryCode(season.getGroup())));
 			Short idCategory = optCategory.map((category) -> category.getIdCategory()).orElse(null); 
 			Short idGroup = GPROUtils.castIfNotNull(GPROUtils.getGroupId(season.getGroup()), Short.class);
+			Short position = GPROUtils.castIfNotNull(season.getPosition(), Short.class);
+			Short wins = GPROUtils.castIfNotNull(season.getWins(), Short.class);
+			String cup = season.getCup();
+			Short fastestLaps = GPROUtils.castIfNotNull(season.getFastestLaps(), Short.class);
+			Integer result = GPROUtils.getMoneyAsInt(season.getMoney());
+			Long moneyBalance = result == null ? null : new Long(result);
+			Short obr = GPROUtils.castIfNotNull(season.getObr(), Short.class);
+			Short podiums = GPROUtils.castIfNotNull(season.getPodiums(), Short.class);
+			Short points = GPROUtils.castIfNotNull(season.getPoints(), Short.class);
+			Short poles = GPROUtils.castIfNotNull(season.getPoles(), Short.class);
+			Short races = GPROUtils.castIfNotNull(season.getRaces(), Short.class);
 			
 			if (idSeason != null && idCategory != null) {
 				//managerService.addManagerHistory(manager.getCodeManager(),
@@ -43,7 +54,17 @@ public class ManagerHistoryUpdater {
 						idSeason,
 						idCategory,
 						idGroup,
-						tyreBrand);
+						tyreBrand,
+						position,
+						wins,
+						cup,
+						fastestLaps,
+						moneyBalance,
+						obr,
+						podiums,
+						points,
+						poles,
+						races);
 			}
 		}
 	}

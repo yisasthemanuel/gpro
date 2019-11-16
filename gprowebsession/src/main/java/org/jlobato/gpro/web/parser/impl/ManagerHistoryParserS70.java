@@ -73,6 +73,10 @@ public class ManagerHistoryParserS70 implements ManagerHistoryParser {
 					//Cup
 					managerHistoryBuilder.withCup(dato.text());
 					break;
+				case 11:
+					//OBR
+					managerHistoryBuilder.withObr(dato.text());
+					break;
 				case 12:
 					//Tyres
 					managerHistoryBuilder.withTyres(dato.getElementsByTag("img").first().attr("src"));

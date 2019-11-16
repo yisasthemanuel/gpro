@@ -4,12 +4,17 @@ import java.util.List;
 
 import org.jlobato.gpro.dao.mybatis.mappers.ManagerHistoryMapper;
 import org.jlobato.gpro.dao.mybatis.mappers.ManagerMapper;
+import org.jlobato.gpro.dao.mybatis.mappers.ManagerTeamHistoryMapper;
 import org.jlobato.gpro.dao.mybatis.model.Manager;
 import org.jlobato.gpro.dao.mybatis.model.ManagerExample;
 import org.jlobato.gpro.dao.mybatis.model.ManagerHistory;
 import org.jlobato.gpro.dao.mybatis.model.ManagerHistoryExample;
+import org.jlobato.gpro.dao.mybatis.model.ManagerTeamHistory;
+import org.jlobato.gpro.dao.mybatis.model.ManagerTeamHistoryExample;
+import org.jlobato.gpro.dao.mybatis.model.Race;
+import org.jlobato.gpro.dao.mybatis.model.Team;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -17,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author JLOBATO
  *
  */
-@Service
+@Repository
 @Transactional
 public class FachadaManager {
 	
@@ -26,6 +31,9 @@ public class FachadaManager {
     
     @Autowired
     protected ManagerHistoryMapper managerHistoryDAO;
+    
+    @Autowired
+    protected ManagerTeamHistoryMapper managerTeamHistoryDAO;
 	
 	/**
 	 * 
@@ -137,7 +145,7 @@ public class FachadaManager {
 	public void addManagerHistory(ManagerHistory record) {
 		managerHistoryDAO.insert(record);
 	}
-	
+
 	/**
 	 * 
 	 * @param codeManager
@@ -145,14 +153,35 @@ public class FachadaManager {
 	 * @param idCategory
 	 * @param idGroup
 	 * @param idTyreBrand
+	 * @param position
+	 * @param wins
+	 * @param cup
+	 * @param fastestLaps
+	 * @param moneyBalance
+	 * @param obr
+	 * @param podiums
+	 * @param points
+	 * @param poles
+	 * @param races
 	 */
-	public void updateManagerHistory(String codeManager, Short idSeason, Short idCategory, Short idGroup, Short idTyreBrand) {
-		ManagerHistoryExample example = new ManagerHistoryExample();
+	public void updateManagerHistory(String codeManager,
+			Short idSeason,
+			Short idCategory,
+			Short idGroup,
+			Short idTyreBrand,
+			Short position,
+			Short wins,
+			String cup,
+			Short fastestLaps,
+			Long moneyBalance,
+			Short obr,
+			Short podiums,
+			Short points,
+			Short poles,
+			Short races) {
+		//Buscamos si existe registro ya para ese manager y temporada
 		Short idManager = getManagerByCode(codeManager).getIdManager();
-		example.createCriteria()
-				.andIdManagerEqualTo(idManager)
-				.andIdSeasonEqualTo(idSeason);
-		List<ManagerHistory> records = managerHistoryDAO.selectByExample(example);
+		List<ManagerHistory> records = getManagerHistory(idManager, idSeason);
 		if (records.isEmpty()) {
 			//Insertamos
 			ManagerHistory record = new ManagerHistory()
@@ -160,18 +189,55 @@ public class FachadaManager {
 					.withIdSeason(idSeason)
 					.withIdCategory(idCategory)
 					.withIdGroup(idGroup)
-					.withIdTyreBrand(idTyreBrand);
+					.withIdTyreBrand(idTyreBrand)
+					.withPosition(position)
+					.withWins(wins)
+					.withCup(cup)
+					.withFastestLaps(fastestLaps)
+					.withMoneyBalance(moneyBalance) //Money balance no debería ser short
+					.withObr(obr)
+					.withPodiums(podiums)
+					.withPoints(points)
+					.withPoles(poles)
+					.withRaces(races);
 			managerHistoryDAO.insert(record);
 		}
 		else {
 			//Actualizamos el existente
 			records.forEach(record -> {
-				record.withIdCategory(idCategory).withIdGroup(idGroup).withIdTyreBrand(idTyreBrand);
+				record.withIdCategory(idCategory)
+					.withIdGroup(idGroup)
+					.withIdTyreBrand(idTyreBrand)
+					.withPosition(position)
+					.withWins(wins)
+					.withCup(cup)
+					.withFastestLaps(fastestLaps)
+					.withMoneyBalance(moneyBalance) //Money balance no debería ser short
+					.withObr(obr)
+					.withPodiums(podiums)
+					.withPoints(points)
+					.withPoles(poles)
+					.withRaces(races);
 				managerHistoryDAO.updateByPrimaryKey(record);
 			});
 		}
 
 		
+	}
+	
+	/**
+	 * 
+	 * @param idManager
+	 * @param idSeason
+	 * @return
+	 */
+	public List<ManagerHistory> getManagerHistory(Short idManager, Short idSeason) {
+		ManagerHistoryExample example = new ManagerHistoryExample();
+		example.createCriteria()
+				.andIdManagerEqualTo(idManager)
+				.andIdSeasonEqualTo(idSeason);
+		List<ManagerHistory> records = managerHistoryDAO.selectByExample(example);
+		return records;
 	}
 	
 	/**
@@ -182,4 +248,74 @@ public class FachadaManager {
 		managerHistoryDAO.updateByPrimaryKey(record);
 	}
 	
+	/**
+	 * 
+	 * @param team
+	 * @param race
+	 */
+	public List<ManagerTeamHistory> getManagers(Team team, Race race) {
+//		List<Manager> result = null;
+		
+		ManagerTeamHistoryExample example = new ManagerTeamHistoryExample();
+		
+		//Criterio 1
+		example.createCriteria()
+			.andIdTeamEqualTo(team.getIdTeam()) //Que pertenezcan al equipo
+			.andIdSeasonStartLessThan(race.getIdSeason()) //Que empezaron en una temporada anterior a la pasada
+			.andIdSeasonEndIsNull() //Que siguen en el equipo
+			.andIdRaceEndIsNull(); //Que siguen en el equipo
+		
+		//Criterio 2
+		example.or()
+			.andIdTeamEqualTo(team.getIdTeam()) //Que pertenezcan al equipo
+			.andIdSeasonStartEqualTo(race.getIdSeason()) //Que empezaron en la misma temporada
+			.andIdRaceStartLessThanOrEqualTo(race.getIdRace()) //Y en una carrera igual o anterior de la temporada
+			.andIdSeasonEndIsNull() //Que siguen en el equipo
+			.andIdRaceEndIsNull(); //Que siguen en el equipo
+	
+		//Criterio 3
+		example.or()
+			.andIdTeamEqualTo(team.getIdTeam()) //Que pertenezcan al equipo
+			.andIdSeasonStartLessThan(race.getIdSeason()) //Que empezaron en una temporada anterior a la pasada
+			.andIdSeasonEndIsNotNull() //Que dejaron el equipo
+			.andIdRaceEndIsNotNull() //Que dejaron el equipo
+			.andIdSeasonEndGreaterThan(race.getIdSeason()); //Pero en una temporada posterior a la solicitada
+		
+		//Criterio 4
+		example.or()
+			.andIdTeamEqualTo(team.getIdTeam()) //Que pertenezcan al equipo
+			.andIdSeasonStartLessThan(race.getIdSeason()) //Que empezaron en una temporada anterior a la pasada
+			.andIdSeasonEndIsNotNull() //Que dejaron el equipo
+			.andIdRaceEndIsNotNull() //Que dejaron el equipo
+			.andIdSeasonEndEqualTo(race.getIdSeason())  //En la misma temporada a la solicitada
+			.andIdRaceEndGreaterThan(race.getIdRace()); //Pero en una carrera posterior a la solicitada
+		
+		
+		//Criterio 5
+		example.or()
+			.andIdTeamEqualTo(team.getIdTeam()) //Que pertenezcan al equipo
+			.andIdSeasonStartEqualTo(race.getIdSeason()) //Que empezaron en la misma temporada
+			.andIdRaceStartLessThanOrEqualTo(race.getIdRace()) //Y en una carrera igual o anterior de la temporada
+			.andIdSeasonEndIsNotNull() //Que dejaron el equipo
+			.andIdRaceEndIsNotNull() //Que dejaron el equipo
+			.andIdSeasonEndGreaterThan(race.getIdSeason()); //Pero en una temporada posterior a la solicitada
+		
+		//Criterio 6
+		example.or()
+			.andIdTeamEqualTo(team.getIdTeam()) //Que pertenezcan al equipo
+			.andIdSeasonStartEqualTo(race.getIdSeason()) //Que empezaron en la misma temporada
+			.andIdRaceStartLessThanOrEqualTo(race.getIdRace()) //Y en una carrera igual o anterior de la temporada
+			.andIdSeasonEndIsNotNull() //Que dejaron el equipo
+			.andIdRaceEndIsNotNull() //Que dejaron el equipo
+			.andIdSeasonEndEqualTo(race.getIdSeason())  //En la misma temporada a la solicitada
+			.andIdRaceEndGreaterThan(race.getIdRace()); //Pero en una carrera posterior a la solicitada	
+		
+		List<ManagerTeamHistory> histories = managerTeamHistoryDAO.selectByExample(example);
+		
+		for (ManagerTeamHistory history : histories) {
+			history.getIdManager();
+		}
+		
+		return histories;
+	}
 }

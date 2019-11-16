@@ -27,7 +27,10 @@
 	<script type="text/javascript" src="${ctx}js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="${ctx}js/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="${ctx}js/jquery.dropdown.js"></script>
-	<script type="text/javascript" src="${ctx}js/jquery.datatables.min.js"></script>	
+	<script type="text/javascript" src="${ctx}js/jquery.datatables.min.js"></script>
+	
+	<c:url var="mainAction" value="/main.html"/>
+	<a href="${mainAction}"><spring:message code="label.home"/></a>
 	
 	
 	<decorator:head/>

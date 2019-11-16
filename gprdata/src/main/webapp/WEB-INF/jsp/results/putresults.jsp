@@ -10,7 +10,7 @@
 	<div id="cabecera">
 		<div id="idSeason">
 			<label for="season">Season:</label>
-			<input type="text" id="season" name="season" maxlength="5" size="10">
+			<input type="text" id="season" name="season" value="73" maxlength="5" size="10">
 		</div>
 		<div id="idRace">
 			<label for="season">Race:</label>
@@ -60,6 +60,19 @@
 				<tr>
 					<td>
 					<div id="manager">
+						<input type="text" value="PABLO" id="manager" name="manager" maxlength="5" size="10" disabled></input>
+					</div>
+					</td>
+					<td>
+					<div id="racePosition">
+						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
+					</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+					<div id="manager">
 						<input type="text" value="EDWIN" id="manager" name="manager" maxlength="5" size="10" disabled></input>
 					</div>
 					</td>
@@ -73,7 +86,7 @@
 				<tr>
 					<td>
 					<div id="manager">
-						<input type="text" value="GEOFF" id="manager" name="manager" maxlength="5" size="10" disabled></input>
+						<input type="text" value="JESUS" id="manager" name="manager" maxlength="5" size="10" disabled></input>
 					</div>
 					</td>
 					<td>
@@ -112,32 +125,6 @@
 				<tr>
 					<td>
 					<div id="manager">
-						<input type="text" value="JESUS" id="manager" name="manager" maxlength="5" size="10" disabled></input>
-					</div>
-					</td>
-					<td>
-					<div id="racePosition">
-						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
-					</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td>
-					<div id="manager">
-						<input type="text" value="PABLO" id="manager" name="manager" maxlength="5" size="10" disabled></input>
-					</div>
-					</td>
-					<td>
-					<div id="racePosition">
-						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
-					</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td>
-					<div id="manager">
 						<input type="text" value="ANIA" id="manager" name="manager" maxlength="5" size="10" disabled></input>
 					</div>
 					</td>
@@ -161,13 +148,25 @@
 					</td>
 				</tr>
 				
+				<tr>
+					<td>
+					<div id="manager">
+						<input type="text" value="GEOFF" id="manager" name="manager" maxlength="5" size="10" disabled></input>
+					</div>
+					</td>
+					<td>
+					<div id="racePosition">
+						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
+					</div>
+					</td>
+				</tr>
+				
 			</table>
 		</div>
 	</div>
 	
 	<input type="button" id="putresults" value='<spring:message code="label.copa.edit"/>'></input>
-	<label id="result"></label>
-	
+		
 <script type="text/javascript">
 
 $(document).ready(function() {

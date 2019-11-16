@@ -18,6 +18,7 @@ public class ManagerHistoryXBean {
 	String races;
 	String cup;			
 	String money;
+	String obr;
 	
 	/**
 	 * 
@@ -42,7 +43,7 @@ public class ManagerHistoryXBean {
 	 * @param money
 	 */
 	public ManagerHistoryXBean(String season, String group, String tyres, String position, String wins, String podiums,
-			String poles, String fastestLaps, String points, String races, String cup, String money) {
+			String poles, String fastestLaps, String points, String races, String cup, String money, String obr) {
 		this();
 		this.season = season;
 		this.group = group;
@@ -56,6 +57,7 @@ public class ManagerHistoryXBean {
 		this.races = races;
 		this.cup = cup;
 		this.money = money;
+		this.obr = obr;
 	}
 
 	public String getSeason() {
@@ -154,11 +156,20 @@ public class ManagerHistoryXBean {
 		this.money = money;
 	}
 
+	public String getObr() {
+		return obr;
+	}
+
+	public void setObr(String obr) {
+		this.obr = obr;
+	}
+
 	@Override
 	public String toString() {
 		return "ManagerHistoryXBean [season=" + season + ", group=" + group + ", tyres=" + tyres + ", position="
 				+ position + ", wins=" + wins + ", podiums=" + podiums + ", poles=" + poles + ", fastestLaps="
-				+ fastestLaps + ", points=" + points + ", races=" + races + ", cup=" + cup + ", money=" + money + "]";
+				+ fastestLaps + ", points=" + points + ", races=" + races + ", cup=" + cup + ", money=" + money
+				+ ", obr=" + obr + "]";
 	}
 	
 }

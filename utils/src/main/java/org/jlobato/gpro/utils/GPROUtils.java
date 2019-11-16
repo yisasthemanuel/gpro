@@ -3,6 +3,8 @@ package org.jlobato.gpro.utils;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.Optional;
 
 import org.joda.time.Period;
@@ -15,6 +17,8 @@ import org.joda.time.format.PeriodFormatterBuilder;
  *
  */
 public class GPROUtils {
+	
+	private static final DecimalFormat decimalFormat = new DecimalFormat("$###,###,###,###;$-###,###,###,###");
 	
 
 	/**
@@ -118,6 +122,11 @@ public class GPROUtils {
 		return result;
 	}
 	
+	/**
+	 * 
+	 * @param group
+	 * @return
+	 */
 	public static String getCategoryCode(String group) {
 		String result = "";
 		int index = group.indexOf("-");
@@ -179,11 +188,21 @@ public class GPROUtils {
 		else return null;
 	}
 	
+	/**
+	 * 
+	 * @param driverEnergyValue
+	 * @return
+	 */
 	public static int getDriverEnergyAtStart(String driverEnergyValue) {
 		int firstPercentIndex = driverEnergyValue.indexOf("%");
 		return Integer.parseInt(driverEnergyValue.substring(0, firstPercentIndex));
 	}
 	
+	/**
+	 * 
+	 * @param driverEnergyValue
+	 * @return
+	 */
 	public static int getDriverEnergyAtEnd(String driverEnergyValue) {
 		//Metemos +2 porque el espacio no se limpia con trim (no se muy bien porque)
 		int separatorIndex = driverEnergyValue.indexOf(">") + 2;
@@ -199,5 +218,21 @@ public class GPROUtils {
 	public static int getPitTimeMillis(String pitTime) {
 		String[] pitTimeParts = pitTime.split("\\.");
 		return (Integer.parseInt(pitTimeParts[0]) * 1000) + Integer.parseInt(pitTimeParts[1]);
-	}	
+	}
+
+	/**
+	 * 
+	 * @param moneyBalance
+	 * @return
+	 */
+	public static Integer getMoneyAsInt(String moneyBalance) {
+		Integer result = null;
+		try {
+			result = decimalFormat.parse(moneyBalance).intValue();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 }

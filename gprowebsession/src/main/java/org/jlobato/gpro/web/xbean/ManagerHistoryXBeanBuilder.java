@@ -13,6 +13,7 @@ public class ManagerHistoryXBeanBuilder {
 	String races;
 	String cup;
 	String money;
+	String obr;
 
 	private ManagerHistoryXBeanBuilder() {
 	}
@@ -43,6 +44,7 @@ public class ManagerHistoryXBeanBuilder {
 		result.setRaces(this.races);
 		result.setCup(this.cup);
 		result.setMoney(this.money);
+		result.setObr(this.obr);
 		
 		return result;
 	}
@@ -104,6 +106,11 @@ public class ManagerHistoryXBeanBuilder {
 
 	public ManagerHistoryXBeanBuilder withMoney(String money) {
 		this.money = money;
+		return this;
+	}
+	
+	public ManagerHistoryXBeanBuilder withObr(String obr) {
+		this.obr = obr;
 		return this;
 	}
 }

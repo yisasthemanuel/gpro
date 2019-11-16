@@ -57,11 +57,14 @@
 
 <body class="lang_gb">
 
+<c:url var="mainAction" value="/main.html"/>
+	
 <c:url value="/perform_logout" var="logoutUrl" />
 <form id="logout" action="${logoutUrl}" method="post" >
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
 <span style="float: right">
+	<a href="${mainAction}"><spring:message code="label.home"/></a>
     <a href="?lang=en">en</a> 
     <a href="?lang=es">es</a>
 	<c:if test="${pageContext.request.userPrincipal.name != null}">

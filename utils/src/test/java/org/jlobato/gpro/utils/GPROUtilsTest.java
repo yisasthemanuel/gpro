@@ -56,5 +56,13 @@ public class GPROUtilsTest {
 	    assertEquals("MCMLXXVI", RomanNumeral.toRoman(1976));
 	    assertEquals("MCMLXXII", RomanNumeral.toRoman(1972));
 	}
+	
+	@Test
+	public void testMoney() {
+		String balance = "$219.871.105";
+		String negativeBalance = "$-470.691";
+		assertEquals(new Integer(219871105), GPROUtils.getMoneyAsInt(balance));
+		assertEquals(new Integer(-470691), GPROUtils.getMoneyAsInt(negativeBalance));
+	}
 
 }

@@ -7,8 +7,9 @@
 	
 
 	<c:url var="gprCupLink" value="/gprcup/main.html"/>	
-	<c:url var="gprCupIcon" value="/images/trophy-png-23.png"/>
+	<c:url var="gprCupIcon" value="/images/trophy.png"/>
 	<c:url var="gprResultsLink" value="/results/results.html"/>	
+	<c:url var="gprResultsIcon" value="/images/results.png"/>
 	
 	<security:authorize access="hasAuthority('Admin')">
 	<div class="row">
@@ -17,10 +18,11 @@
 	      <img src="${gprCupIcon}" title="<spring:message code="label.copa"/>" width="171" height="180">
 	    </a>
 	  </div>
-	</div>
-	
-	<div>
-		<a href="${gprResultsLink}">Resultados</a>
+	  <div class="col-xs-6 col-md-3">
+	    <a href="${gprResultsLink}" class="thumbnail">
+	      <img src="${gprResultsIcon}" title="<spring:message code="label.resultados"/>" width="171" height="180">
+	    </a>
+	  </div>
 	</div>
 	
 	</security:authorize>

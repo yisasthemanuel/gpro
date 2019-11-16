@@ -133,6 +133,7 @@
     <!-- MANAGER TEAM HISTORY TABLE -->
     <table tableName="MANAGER_TEAM_HISTORY" domainObjectName="ManagerTeamHistory">
       <generatedKey column="id_manager_team_history" sqlStatement="select NEXTVAL('manager_team_history_id_seq')"/>
+      <columnOverride column="money_balance" javaType="int"/>
     </table>
     
     <!-- TYRE BRAND TABLE -->
