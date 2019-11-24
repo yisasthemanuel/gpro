@@ -203,7 +203,8 @@ $(document).ready(function() {
 		//Peticion PUT
 		$.ajax({
 		    type: "PUT",
-		    url: "http://localhost:8080/gproapi/managers/results",
+		    //url: "http://localhost:8080/gproapi/managers/results",
+		    url: "http://localhost:9080/managers/results",
 		    contentType: "application/json",
 		    data: jsonString,
 		    success: function (data, textStatus, xhr) {
