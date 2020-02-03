@@ -6,12 +6,14 @@ import javax.servlet.http.HttpSession;
 import org.jlobato.gpro.dao.mybatis.facade.FachadaManager;
 import org.jlobato.gpro.dao.mybatis.facade.FachadaSeason;
 import org.jlobato.gpro.dao.mybatis.facade.FachadaTeam;
+import org.jlobato.gpro.dao.mybatis.model.Season;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -99,10 +101,21 @@ public class ResultsController {
 	 * @return
 	 */
 	@RequestMapping(value = "/results", method = RequestMethod.GET)
-	public ModelAndView getResults()	{
+	public ModelAndView getResults(@RequestParam(value="currentSeason", required=false) String currentSeason)	{
 		//Modelo
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("Texto", "Eso es asín");
+		
+        Season current = null;
+        if (currentSeason != null) {
+        	current = fachadaSeason.getSeason(new Integer(currentSeason));
+        } else {
+            current = fachadaSeason.getCurrentSeason();
+        }
+        
+        modelAndView.addObject("currentSeasonID", current.getIdSeason());        
+        
+		
 		//Vista
 		modelAndView.setViewName("/results/putresults");
 		

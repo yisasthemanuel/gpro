@@ -17,6 +17,22 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 //4. Lanzar una excepción para el caso en que la carrera exista ya
 
 //TODO Incluir el patrón observer para que los importers puedan hacer un resumen de la ejecución de la importación
+/**
+ * args[0] -> Directorio donde está el xml de configuración de spring
+ * args[1] -> Directorio base donde están las sheets de las carreras.
+ * 				El directorio base tiene la siguiente estructura
+ * 					CARLO
+ * 					|_Ahvenisto_S72.xls
+ * 					|_Yeongam_S72.xls
+ * 					MIKKO
+ * 					|_S70 - R1 - Baku City.xls
+ * 					|_S70 - R3 - Suzuka.xls
+ * 					 
+ * Ejemplo: BatchImporter C:/Desarrollo/gpro/gprdata/src/main/webapp/WEB-INF/spring-applicationContext.xml C:/Desarrollo/gpro/racedata
+ * 
+ * @author Jesús Manuel Pérez
+ *
+ */
 public class BatchImporter {
 
 	public static void main(String[] args) {
@@ -27,16 +43,11 @@ public class BatchImporter {
 			System.setProperty("entorno", "I");
 			
 			//Cargamos el contexto spring (el mismo contexto que la aplicación web)
-			//contexto = new FileSystemXmlApplicationContext("C:/Desarrollo/eclipse/ws/gpro/gprdata/src/main/webapp/WEB-INF/spring-applicationContext.xml");
-			//contexto = new FileSystemXmlApplicationContext("C:/Desarrollo/gpro/gprdata/src/main/webapp/WEB-INF/spring-applicationContext.xml");
 			contexto = new FileSystemXmlApplicationContext(args[0]);
 			System.out.println("Contexto cargado: " + contexto.getDisplayName());
 			
 			//Importador de carreras
 			SingleRaceImporter importer = contexto.getBean(SingleRaceImporter.class);
-			
-			//Directorio base
-			//String baseDirectory = "C:/Desarrollo/gpro/racedata";
 			
 			//Los directorios de primer nivel son los managers (códigos)
 			File baseDir = new File(args[1]);
@@ -87,7 +98,7 @@ public class BatchImporter {
 	 * @return
 	 */
 	private static List<File> getAllFiles(File dir) {
-		List<File> result = new ArrayList<File>();
+		List<File> result = new ArrayList<>();
 		
 		File fileList[] = dir.listFiles();
 		if (fileList != null) {
