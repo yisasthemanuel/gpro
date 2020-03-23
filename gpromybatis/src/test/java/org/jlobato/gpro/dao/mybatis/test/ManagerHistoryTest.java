@@ -55,7 +55,7 @@ public class ManagerHistoryTest extends MyBatisBaseTest {
 	}
 	
 	
-	private List<ManagerTeamHistory> getManagers(FachadaManager fManager, int idTeam, int idSeason, int idRace) {
+	private List<Manager> getManagers(FachadaManager fManager, int idTeam, int idSeason, int idRace) {
 		Team team = new Team().withIdTeam((short)idTeam);
 		Race race = new Race();
 		race.withIdSeason((short)idSeason).withIdRace((short)idRace);

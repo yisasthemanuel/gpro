@@ -11,8 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -48,7 +48,7 @@ public class ResultsController {
 	/**
 	 * 
 	 */
-	private static final transient Logger logger = LoggerFactory.getLogger(ResultsController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ResultsController.class);
 	
 
 	/**
@@ -57,7 +57,7 @@ public class ResultsController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/pre-results", method = RequestMethod.GET)
+	@GetMapping(value = "/pre-results")
 	public ModelAndView results(HttpServletRequest request, HttpSession session)	{
 		logger.debug("ResultsController.results - begin");
 		
@@ -68,6 +68,7 @@ public class ResultsController {
 		
 		//TODO Ahora añadimos todos los managers. Hay que añadir sólo los del equipo seleccionado
 		modelAndView.addObject("managersList", fachadaManager.getManagersList());
+		
 		//TODO Falta materializar los circuitos de cada carrera
         modelAndView.addObject("racesList", fachadaSeason.getRaces(fachadaSeason.getCurrentSeason()));
         
@@ -82,15 +83,11 @@ public class ResultsController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/allraces", method = RequestMethod.GET, produces = "application/json")
-	//public @ResponseBody List<Race> allraces(HttpServletRequest request, HttpSession session, String codSeason)	{
+	@GetMapping(value = "/allraces", produces = "application/json")
 	public @ResponseBody String allraces(HttpServletRequest request, HttpSession session, String codSeason)	{
-		logger.debug("ResultsController.getSeasonRaces - begin for season " + request.getParameter("codSeason"));
-		logger.debug("ResultsController.getSeasonRaces - begin for season " + codSeason);
-		
-		
-		logger.debug("ResultsController.getSeasonRaces - end for season " + request.getParameter("codSeason"));
-		//return new ArrayList<Race>();
+		logger.debug("ResultsController.getSeasonRaces - begin for season {}", request.getParameter("codSeason"));
+		logger.debug("ResultsController.getSeasonRaces - begin for season {} ", codSeason);
+		logger.debug("ResultsController.getSeasonRaces - end for season {}", request.getParameter("codSeason"));
 		return "{codigo: apatrullando}";
 	}
 	
@@ -100,7 +97,7 @@ public class ResultsController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/results", method = RequestMethod.GET)
+	@GetMapping(value = "/results")
 	public ModelAndView getResults(@RequestParam(value="currentSeason", required=false) String currentSeason)	{
 		//Modelo
 		ModelAndView modelAndView = new ModelAndView();
@@ -113,14 +110,16 @@ public class ResultsController {
             current = fachadaSeason.getCurrentSeason();
         }
         
-        modelAndView.addObject("currentSeasonID", current.getIdSeason());        
+        // Añadimos la lista de managers
+		modelAndView.addObject("managersList", fachadaManager.getManagers(fachadaTeam.getDefaultTeam(), fachadaSeason.getCurrentRace()));
         
-		
+        modelAndView.addObject("currentSeasonID", current.getIdSeason());
+        modelAndView.addObject("currentRace", fachadaSeason.getCurrentRace().getIdRace());
+        
 		//Vista
 		modelAndView.setViewName("/results/putresults");
 		
 		return modelAndView;
 	}
-
 
 }

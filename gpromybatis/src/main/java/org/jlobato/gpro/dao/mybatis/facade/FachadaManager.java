@@ -1,5 +1,8 @@
 package org.jlobato.gpro.dao.mybatis.facade;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jlobato.gpro.dao.mybatis.mappers.ManagerHistoryMapper;
@@ -14,6 +17,9 @@ import org.jlobato.gpro.dao.mybatis.model.ManagerTeamHistoryExample;
 import org.jlobato.gpro.dao.mybatis.model.Race;
 import org.jlobato.gpro.dao.mybatis.model.Team;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +40,21 @@ public class FachadaManager {
     
     @Autowired
     protected ManagerTeamHistoryMapper managerTeamHistoryDAO;
+    
+    /**
+     * 
+     */
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    /**
+     * 
+     * @param namedParameterJdbcTemplate
+     */
+    public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    	this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+    }
+
 	
 	/**
 	 * 
@@ -253,8 +274,8 @@ public class FachadaManager {
 	 * @param team
 	 * @param race
 	 */
-	public List<ManagerTeamHistory> getManagers(Team team, Race race) {
-//		List<Manager> result = null;
+	public List<Manager> getManagersOld(Team team, Race race) {
+		List<Manager> result = new ArrayList<>();
 		
 		ManagerTeamHistoryExample example = new ManagerTeamHistoryExample();
 		
@@ -313,9 +334,99 @@ public class FachadaManager {
 		List<ManagerTeamHistory> histories = managerTeamHistoryDAO.selectByExample(example);
 		
 		for (ManagerTeamHistory history : histories) {
-			history.getIdManager();
+			Short idManager = history.getIdManager();
+			Manager theManager = managerDAO.selectByPrimaryKey(idManager);
+			result.add(theManager);
 		}
-		
-		return histories;
+		return result;
 	}
+	
+    /**
+     * 
+     * @param season
+     * @return
+     */
+    public List<Manager> getManagers(Team team, Race race) {
+        
+    	List<Manager> result = new ArrayList<>();
+    	
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+
+        mapSqlParameterSource.addValue("team", team.getIdTeam());
+        mapSqlParameterSource.addValue("season", race.getIdSeason());
+        mapSqlParameterSource.addValue("race", race.getIdRace());
+
+        result = namedParameterJdbcTemplate.query(
+        		SELECT_MANAGERS_RESULTS,
+        		mapSqlParameterSource,
+        		new RowMapper<Manager>() {
+        			public Manager mapRow(ResultSet rs, int rowNum) throws SQLException {
+        				return managerDAO.selectByPrimaryKey(rs.getShort("id_manager"));
+        			}
+        		});
+
+        return result;
+    }
+	
+	
+	private static final String SELECT_MANAGERS_RESULTS = "select " + 
+	"mh.id_manager, " + 
+	"mh.id_category, " + 
+	"case " + 
+	"when mh.id_group is null then 1 " + 
+	"else mh.id_group end as m_group, " + 
+	"mh.position, " + 
+	"m.code_manager, " + 
+	"m.first_name, " + 
+	"m.last_name " + 
+	"from " + 
+	"( " + 
+	"select " + 
+	"mth.id_manager " + 
+	"from " + 
+	"manager_team_history mth " + 
+	"where " + 
+	"(mth.id_team = :team " + 
+	"and mth.id_season_start < :season " + 
+	"and mth.id_season_end is null " + 
+	"and mth.id_race_end is null ) " + 
+	"or( mth.id_team = :team " + 
+	"and mth.id_season_start = :season " + 
+	"and mth.id_race_start <= :race " + 
+	"and mth.id_season_end is null " + 
+	"and mth.id_race_end is null ) " + 
+	"or( mth.id_team = :team " + 
+	"and mth.id_season_start < :season " + 
+	"and mth.id_season_end is not null " + 
+	"and mth.id_race_end is not null " + 
+	"and mth.id_season_end > :season ) " + 
+	"or( mth.id_team = :team " + 
+	"and mth.id_season_start < :season " + 
+	"and mth.id_season_end is not null " + 
+	"and mth.id_race_end is not null " + 
+	"and mth.id_season_end = :season " + 
+	"and mth.id_race_end > :race ) " + 
+	"or( mth.id_team = :team " + 
+	"and mth.id_season_start = :season " + 
+	"and mth.id_race_start <= :race " + 
+	"and mth.id_season_end is not null " + 
+	"and mth.id_race_end is not null " + 
+	"and mth.id_season_end > :season ) " + 
+	"or( mth.id_team = :team " + 
+	"and mth.id_season_start = :season " + 
+	"and mth.id_race_start <= :race " + 
+	"and mth.id_season_end is not null " + 
+	"and mth.id_race_end is not null " + 
+	"and mth.id_season_end = :season " + 
+	"and mth.id_race_end > :race) ) mth, " + 
+	"manager_history mh, " + 
+	"manager m " + 
+	"where " + 
+	"mh.id_manager = mth.id_manager " + 
+	"and mh.id_season = :season " + 
+	"and m.id_manager = mh.id_manager " + 
+	"order by " + 
+	"mh.id_category, " + 
+	"m_group, " + 
+	"mh.\"position\" ";
 }

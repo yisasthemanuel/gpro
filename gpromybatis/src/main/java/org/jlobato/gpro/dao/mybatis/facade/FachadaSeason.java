@@ -42,7 +42,7 @@ public class FachadaSeason {
 	/**
 	 * 
 	 */
-	private static final transient Logger logger = LoggerFactory.getLogger(FachadaSeason.class);
+	private static final Logger logger = LoggerFactory.getLogger(FachadaSeason.class);
 	
     @Autowired
     protected SeasonMapper seasonDAO;
@@ -183,8 +183,34 @@ public class FachadaSeason {
     	org.jlobato.gpro.dao.mybatis.model.RaceExample.Criteria criteria = example.createCriteria();
     	criteria.andIdSeasonEqualTo(season.getIdSeason());
     	example.setOrderByClause("race_date");
-    	List<Race> races = raceDAO.selectByExample(example);
-    	return races;
+    	return raceDAO.selectByExample(example);
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public Race getCurrentRace() {
+    	return getCurrentRace(new Date());
+    }
+    
+    /**
+     * 
+     * @param rightnow
+     * @return
+     */
+    public Race getCurrentRace(Date rightNow) {
+    	Race result = null;
+    	RaceExample example = new RaceExample();
+    	org.jlobato.gpro.dao.mybatis.model.RaceExample.Criteria criteria = example.createCriteria();
+    	criteria.andRaceDateLessThan(rightNow);
+    	example.setOrderByClause("race_date desc");
+    
+    	List<Race> current = raceDAO.selectByExample(example);
+    	if (!current.isEmpty()) {
+    		result = current.get(0); 
+    	}
+    	return result;
     }
     
     /**

@@ -25,6 +25,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,10 +42,14 @@ import org.springframework.web.servlet.ModelAndView;
 public class GprcupController {
 	
 	
+	private static final String CURRENT_SEASON = "currentSeason";
+
+	private static final String CURRENT_RACE = "currentRace";
+
 	/**
 	 * 
 	 */
-	private static final transient Logger logger = LoggerFactory.getLogger(GprcupController.class);
+	private static final Logger logger = LoggerFactory.getLogger(GprcupController.class);
 	
 	@Autowired
 	private TemplateService templateService;
@@ -61,9 +67,15 @@ public class GprcupController {
 	@Autowired
 	private FachadaManager fachadaManager;
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	private FachadaGPRCup fachadaCup;
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	private GPROCupService cupService;
 
@@ -73,7 +85,7 @@ public class GprcupController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/gprcup.html", method = RequestMethod.GET)
+	@GetMapping(value = "/gprcup.html")
 	public ModelAndView cup(HttpServletRequest request, HttpSession session)	{
 		logger.debug("GprcupController.cup - begin");
 		
@@ -85,7 +97,6 @@ public class GprcupController {
         
 		logger.debug("GprcupController.cup - end");
 		return modelAndView;
-
 	}
 	
 	/**
@@ -96,7 +107,7 @@ public class GprcupController {
 	 */
 	@RequestMapping(value = "/main.html", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView main(HttpServletRequest request,
-			 @RequestParam(value="currentSeason", required=false) String currentSeason,
+			 @RequestParam(value=CURRENT_SEASON, required=false) String currentSeason,
 			HttpSession session)	{
 		logger.debug("GprcupController.main - begin");
 		
@@ -123,18 +134,15 @@ public class GprcupController {
         	session.setAttribute("currentCupStandings", standings);
         	modelAndView.addObject("lastRace", standings.getIdRace());
         	modelAndView.addObject("lastSeason", standings.getIdSeason());
-            logger.info("GprcupController.main - Clasificación correspondiente a la carrera: " + standings.getIdRace());
+            logger.info("GprcupController.main - Clasificación correspondiente a la carrera: {}", standings.getIdRace());
         }
         
         modelAndView.addObject("managersList", managers);
         modelAndView.addObject("racesList", fachadaSeason.getRaces(current));
         modelAndView.addObject("seasonList", fachadaSeason.getAvailableSeasons());
         
-        logger.info("GprcupController.main - Temporada actual: " + current.getNameSeason());
-        modelAndView.addObject("currentSeason", current);
-        
-//        List<Map<String, String>> tracks = fachadaSeason.getTracks(current);
-//        logger.info("GprcupController.main - Circuitos actuales: " + tracks);
+        logger.info("GprcupController.main - Temporada actual: {}", current.getNameSeason());
+        modelAndView.addObject(CURRENT_SEASON, current);
         
 		logger.debug("GprcupController.main - end");
 		return modelAndView;
@@ -147,7 +155,7 @@ public class GprcupController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/showStandings.html", method = RequestMethod.POST)
+	@PostMapping(value = "/showStandings.html")
 	public ModelAndView showStandings(HttpServletRequest request, HttpSession session) {
 		logger.debug("GprcupController.showStandings - begin");
 		
@@ -197,93 +205,93 @@ public class GprcupController {
 		
 		//Managers
         String manager01 = request.getParameter("qfManager01");
-        logger.debug("GprcupController.getCupStandings.qfManager01 - " + manager01);
+        logger.debug("GprcupController.getCupStandings.qfManager01 - {}", manager01);
         
         String manager02 = request.getParameter("qfManager02");
-        logger.debug("GprcupController.getCupStandings.qfManager02 - " + manager02);
+        logger.debug("GprcupController.getCupStandings.qfManager02 - {}", manager02);
         
         String manager03 = request.getParameter("qfManager03");
-        logger.debug("GprcupController.getCupStandings.qfManager03 - " + manager03);
+        logger.debug("GprcupController.getCupStandings.qfManager03 - {}", manager03);
         
         String manager04 = request.getParameter("qfManager04");
-        logger.debug("GprcupController.getCupStandings.qfManager04 - " + manager04);
+        logger.debug("GprcupController.getCupStandings.qfManager04 - {}", manager04);
         
         String manager05 = request.getParameter("qfManager05");
-        logger.debug("GprcupController.getCupStandings.qfManager05 - " + manager05);
+        logger.debug("GprcupController.getCupStandings.qfManager05 - {}", manager05);
         
         String manager06 = request.getParameter("qfManager06");
-        logger.debug("GprcupController.getCupStandings.qfManager06 - " + manager06);
+        logger.debug("GprcupController.getCupStandings.qfManager06 - {}", manager06);
         
         String manager07 = request.getParameter("qfManager07");
-        logger.debug("GprcupController.getCupStandings.qfManager07 - " + manager07);
+        logger.debug("GprcupController.getCupStandings.qfManager07 - {}", manager07);
         
         String manager08 = request.getParameter("qfManager08");
-        logger.debug("GprcupController.getCupStandings.qfManager08 - " + manager08);
+        logger.debug("GprcupController.getCupStandings.qfManager08 - {}", manager08);
         
         String sfmanager01 = request.getParameter("sfManager01");
-        logger.debug("GprcupController.getCupStandings.sfManager01 - " + sfmanager01);
+        logger.debug("GprcupController.getCupStandings.sfManager01 - {}", sfmanager01);
         
         String sfmanager02 = request.getParameter("sfManager02");
-        logger.debug("GprcupController.getCupStandings.sfManager02 - " + sfmanager02);
+        logger.debug("GprcupController.getCupStandings.sfManager02 - {}", sfmanager02);
         
         String sfmanager03 = request.getParameter("sfManager03");
-        logger.debug("GprcupController.getCupStandings.sfManager03 - " + sfmanager03);
+        logger.debug("GprcupController.getCupStandings.sfManager03 - {}", sfmanager03);
         
         String sfmanager04 = request.getParameter("sfManager04");
-        logger.debug("GprcupController.getCupStandings.sfManager04 - " + sfmanager04);
+        logger.debug("GprcupController.getCupStandings.sfManager04 - {}", sfmanager04);
         
         String fmanager01 = request.getParameter("fManager01");
-        logger.debug("GprcupController.getCupStandings.fManager01 - " + fmanager01);
+        logger.debug("GprcupController.getCupStandings.fManager01 - {}", fmanager01);
         
         String fmanager02 = request.getParameter("fManager02");
-        logger.debug("GprcupController.getCupStandings.fManager02 - " + fmanager02);
+        logger.debug("GprcupController.getCupStandings.fManager02 - {}", fmanager02);
         
         String fmanagerWinner = request.getParameter("fManagerWinner");
-        logger.debug("GprcupController.getCupStandings.fManagerWinner - " + fmanagerWinner);
+        logger.debug("GprcupController.getCupStandings.fManagerWinner - {}", fmanagerWinner);
         
 
         //Scores
         String qfmanager01Score = request.getParameter("qfManager01Score");
-        logger.debug("GprcupController.getCupStandings.qfManager01Score - " + qfmanager01Score);
+        logger.debug("GprcupController.getCupStandings.qfManager01Score - {}", qfmanager01Score);
         
         String qfmanager02Score = request.getParameter("qfManager02Score");
-        logger.debug("GprcupController.getCupStandings.qfManager02Score - " + qfmanager02Score);
+        logger.debug("GprcupController.getCupStandings.qfManager02Score - {}", qfmanager02Score);
         
         String qfmanager03Score = request.getParameter("qfManager03Score");
-        logger.debug("GprcupController.getCupStandings.qfManager03Score - " + qfmanager03Score);
+        logger.debug("GprcupController.getCupStandings.qfManager03Score - {}", qfmanager03Score);
         
         String qfmanager04Score = request.getParameter("qfManager04Score");
-        logger.debug("GprcupController.getCupStandings.qfManager04Score - " + qfmanager04Score);
+        logger.debug("GprcupController.getCupStandings.qfManager04Score - {}", qfmanager04Score);
         
         String qfmanager05Score = request.getParameter("qfManager05Score");
-        logger.debug("GprcupController.getCupStandings.qfManager05Score - " + qfmanager05Score);
+        logger.debug("GprcupController.getCupStandings.qfManager05Score - {}", qfmanager05Score);
         
         String qfmanager06Score = request.getParameter("qfManager06Score");
-        logger.debug("GprcupController.getCupStandings.qfManager06Score - " + qfmanager06Score);
+        logger.debug("GprcupController.getCupStandings.qfManager06Score - {}", qfmanager06Score);
         
         String qfmanager07Score = request.getParameter("qfManager07Score");
-        logger.debug("GprcupController.getCupStandings.qfManager07Score - " + qfmanager07Score);
+        logger.debug("GprcupController.getCupStandings.qfManager07Score - {}", qfmanager07Score);
         
         String qfmanager08Score = request.getParameter("qfManager08Score");
-        logger.debug("GprcupController.getCupStandings.qfManager08Score - " + qfmanager08Score);
+        logger.debug("GprcupController.getCupStandings.qfManager08Score - {}", qfmanager08Score);
         
         String sfmanager01Score = request.getParameter("sfManager01Score");
-        logger.debug("GprcupController.getCupStandings.sfManager01Score - " + sfmanager01Score);
+        logger.debug("GprcupController.getCupStandings.sfManager01Score - {}", sfmanager01Score);
         
         String sfmanager02Score = request.getParameter("sfManager02Score");
-        logger.debug("GprcupController.getCupStandings.sfManager02Score - " + sfmanager02Score);
+        logger.debug("GprcupController.getCupStandings.sfManager02Score - {}", sfmanager02Score);
         
         String sfmanager03Score = request.getParameter("sfManager03Score");
-        logger.debug("GprcupController.getCupStandings.sfManager03Score - " + sfmanager03Score);
+        logger.debug("GprcupController.getCupStandings.sfManager03Score - {}", sfmanager03Score);
         
         String sfmanager04Score = request.getParameter("sfManager04Score");
-        logger.debug("GprcupController.getCupStandings.sfManager04Score - " + sfmanager04Score);
+        logger.debug("GprcupController.getCupStandings.sfManager04Score - {}", sfmanager04Score);
         
         String fmanager01Score = request.getParameter("fManager01Score");
-        logger.debug("GprcupController.getCupStandings.fManager01Score - " + fmanager01Score);
+        logger.debug("GprcupController.getCupStandings.fManager01Score - {}", fmanager01Score);
         
         String fmanager02Score = request.getParameter("fManager02Score");
-        logger.debug("GprcupController.getCupStandings.fManager02Score - " + fmanager02Score);
+        logger.debug("GprcupController.getCupStandings.fManager02Score - {}", fmanager02Score);
         
         result.setIdManagerQf1(getManagerID(manager01));
         result.setIdManagerQf2(getManagerID(manager02));
@@ -293,11 +301,6 @@ public class GprcupController {
         result.setIdManagerQf6(getManagerID(manager06));
         result.setIdManagerQf7(getManagerID(manager07));
         result.setIdManagerQf8(getManagerID(manager08));
-        
-        /*Locale locale = RequestContextUtils.getLocale(request);
-        
-        NumberFormatter formater = new NumberFormatter();
-        Number number = formater.parse(qfmanager01Score, locale);*/
         
         result.setScoreManagerQf1((qfmanager01Score != null && !"".equals(qfmanager01Score)) ? new BigDecimal(qfmanager01Score) : null);
         result.setScoreManagerQf2((qfmanager02Score != null && !"".equals(qfmanager02Score)) ? new BigDecimal(qfmanager02Score) : null);
@@ -327,17 +330,12 @@ public class GprcupController {
         result.setIdManagerWinner(getManagerID(fmanagerWinner));
         
         //Recuperamos la carrera para la que se guarda la clasificación
-        Race theRace = fachadaSeason.getRace(new Short(request.getParameter("currentRace")));
+        Race theRace = fachadaSeason.getRace(new Short(request.getParameter(CURRENT_RACE)));
         if (theRace != null) {
             result.setIdRace(theRace.getIdRace());
         }
         
-        //Identificamos la clave primaria de la clasificación (Season y Team)
-        //Será mejor tomarlo de sesión
-        //Season current = fachadaSeason.getCurrentSeason();
-        //Season theSeason = fachadaSeason.getSeason(new Integer(request.getParameter("currentSeason")));
-        //result.setIdSeason(theSeason.getIdSeason());
-        result.setIdSeason(new Short(request.getParameter("currentSeason")));
+        result.setIdSeason(new Short(request.getParameter(CURRENT_SEASON)));
         
         //Tomamos equipo por defecto. Esto en un futuro será el equipo asignado al usuario
         result.setIdTeam(fachadaCup.getDefaultTeam().getIdTeam());
@@ -349,7 +347,9 @@ public class GprcupController {
 		Short result = null;
 		try {
 			result = new Short(id);
-		} catch(Exception e) { }
+		} catch(Exception e) {
+			// Do nothing
+		}
 		return result;
 	}
 
@@ -359,7 +359,7 @@ public class GprcupController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/saveStandings.html", method = RequestMethod.POST)
+	@PostMapping(value = "/saveStandings.html")
 	public ModelAndView saveStandings(HttpServletRequest request, HttpSession session) {
 		logger.debug("GprcupController.saveStandings - begin");
 		
@@ -371,8 +371,8 @@ public class GprcupController {
 		
 		//Redirigimos a la página principal. Esto se puede mejorar
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("currentSeason", cupStandings.getIdSeason());
-        modelAndView.addObject("currentRace", cupStandings.getIdRace());
+        modelAndView.addObject(CURRENT_SEASON, cupStandings.getIdSeason());
+        modelAndView.addObject(CURRENT_RACE, cupStandings.getIdRace());
         String view = "redirect:/gprcup/main.html";
         modelAndView.setViewName(view);
         
@@ -381,10 +381,10 @@ public class GprcupController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/seeding.html", method = RequestMethod.GET)
+	@GetMapping(value = "/seeding.html")
 	public void exportSeeding(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam(value="currentSeason", required=false) String idSeason,
-			@RequestParam(value="currentRace", required=false) String idRace) throws TemplateException {
+			@RequestParam(value=CURRENT_SEASON, required=false) String idSeason,
+			@RequestParam(value=CURRENT_RACE, required=false) String idRace) throws TemplateException {
 		logger.debug("GprcupController.exportSeeding - begin");
         ModelAndView modelAndView = new ModelAndView();
         
@@ -401,12 +401,12 @@ public class GprcupController {
         	.add("participants", 8);
         
         String result = templateService.processTemplate("plantilla.seed.ftl", builder.build());
-		logger.debug("GprcupController.exportSeeding - RESULT - " + result);
+		logger.debug("GprcupController.exportSeeding - RESULT - {}", result);
 		
 		
-        modelAndView.addObject("currentSeason", season.getIdSeason());
+        modelAndView.addObject(CURRENT_SEASON, season.getIdSeason());
         if (idRace != null) {
-            modelAndView.addObject("currentRace", idRace);
+            modelAndView.addObject(CURRENT_RACE, idRace);
         }
         
         //TODO Redirigir a una página genérica de download
@@ -425,15 +425,12 @@ public class GprcupController {
 		logger.debug("GprcupController.exportSeeding - end");
         
         
-        //Hago el sendredirect para que pille el tema gprcup
-//        modelAndView.setViewName("redirect:/gprcup/main.html");        
-//		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/statistics.html", method = RequestMethod.GET)
+	@GetMapping(value = "/statistics.html")
 	public void exportStatistics(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam(value="currentSeason", required=false) String idSeason,
-			@RequestParam(value="currentRace", required=false) String idRace
+			@RequestParam(value=CURRENT_SEASON, required=false) String idSeason,
+			@RequestParam(value=CURRENT_RACE, required=false) String idRace
 			) throws TemplateException {
 		logger.debug("GprcupController.exportStatistics - begin");
         ModelAndView modelAndView = new ModelAndView();
@@ -449,11 +446,11 @@ public class GprcupController {
         builder.add("stats", cupService.getStatistics(season)).add("editions_no", (season.getIdSeason() - cupService.getSeasonForFirstEdition()) + 1);
 		
         String result = templateService.processTemplate("statistics.report.ftl", builder.build());
-		logger.debug("GprcupController.exportStatistics - RESULT - " + result);
+		logger.debug("GprcupController.exportStatistics - RESULT - {}", result);
 		
-        modelAndView.addObject("currentSeason", season.getIdSeason());
+        modelAndView.addObject(CURRENT_SEASON, season.getIdSeason());
         if (idRace != null) {
-        	modelAndView.addObject("currentRace", idRace);
+        	modelAndView.addObject(CURRENT_RACE, idRace);
         }
         
         
@@ -470,10 +467,5 @@ public class GprcupController {
         }
         
 		logger.debug("GprcupController.exportStatistics - end");
-        
-        //Hago el sendredirect para que pille el tema gprcup
-//        modelAndView.setViewName("redirect:/gprcup/main.html");        
-//		logger.debug("GprcupController.exportStatistics - end");
-//		return modelAndView;
 	}
 }

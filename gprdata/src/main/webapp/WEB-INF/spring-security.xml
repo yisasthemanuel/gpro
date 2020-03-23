@@ -27,6 +27,9 @@
         <csrf/>
 	</http>
 	
+	<!-- Sin encriptación de claves -->
+	<b:bean id ="passwordEncoder" class="org.springframework.security.crypto.password.NoOpPasswordEncoder" factory-method="getInstance" />
+	
 	<!-- Autenticación por base de datos -->
 	<authentication-manager>
 	  <authentication-provider>
