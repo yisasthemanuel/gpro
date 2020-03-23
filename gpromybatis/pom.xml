@@ -165,7 +165,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <mybatis.generator.jdbcDriver>org.postgresql.Driver</mybatis.generator.jdbcDriver>
-    <mybatis.generator.connectionURL>jdbc:postgresql://localhost:5432/gprodata</mybatis.generator.connectionURL>
+    <mybatis.generator.connectionURL>jdbc:postgresql://localhost:5454/gprodata</mybatis.generator.connectionURL>
     <mybatis.generator.userId>gprodata</mybatis.generator.userId>
     <mybatis.generator.password>gprodata</mybatis.generator.password>
 	<java.build.version>1.8</java.build.version>
