@@ -14,7 +14,7 @@
 		</div>
 		<div id="idRace">
 			<label for="season">Race:</label>
-			<input type="text" id="race" name="race" maxlength="5" size="10">
+			<input type="text" id="race" name="race" value="${currentRace}" maxlength="5" size="10">
 		</div>
 		<div id="results">
 			<table>
@@ -30,11 +30,11 @@
 					</div>
 					</td>
 				</tr>
-				
+				<c:forEach items="${managersList}" var="manager" varStatus="status">
 				<tr>
 					<td>
 					<div id="manager">
-						<input type="text" value="NEVZA" id="manager" name="manager" maxlength="5" size="10" disabled></input>
+						<input type="text" value="${manager.codeManager}" id="manager" name="manager" maxlength="5" size="10" disabled></input>
 					</div>
 					</td>
 					<td>
@@ -43,124 +43,7 @@
 					</div>
 					</td>
 				</tr>
-				
-				<tr>
-					<td>
-					<div id="manager">
-						<input type="text" value="CARLO" id="manager" name="manager" maxlength="5" size="10" disabled></input>
-					</div>
-					</td>
-					<td>
-					<div id="racePosition">
-						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
-					</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td>
-					<div id="manager">
-						<input type="text" value="PABLO" id="manager" name="manager" maxlength="5" size="10" disabled></input>
-					</div>
-					</td>
-					<td>
-					<div id="racePosition">
-						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
-					</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td>
-					<div id="manager">
-						<input type="text" value="EDWIN" id="manager" name="manager" maxlength="5" size="10" disabled></input>
-					</div>
-					</td>
-					<td>
-					<div id="racePosition">
-						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
-					</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td>
-					<div id="manager">
-						<input type="text" value="ANIA" id="manager" name="manager" maxlength="5" size="10" disabled></input>
-					</div>
-					</td>
-					<td>
-					<div id="racePosition">
-						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
-					</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td>
-					<div id="manager">
-						<input type="text" value="GEOFF" id="manager" name="manager" maxlength="5" size="10" disabled></input>
-					</div>
-					</td>
-					<td>
-					<div id="racePosition">
-						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
-					</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td>
-					<div id="manager">
-						<input type="text" value="MIKKO" id="manager" name="manager" maxlength="5" size="10" disabled></input>
-					</div>
-					</td>
-					<td>
-					<div id="racePosition">
-						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
-					</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td>
-					<div id="manager">
-						<input type="text" value="MARK" id="manager" name="manager" maxlength="5" size="10" disabled></input>
-					</div>
-					</td>
-					<td>
-					<div id="racePosition">
-						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
-					</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td>
-					<div id="manager">
-						<input type="text" value="JESUS" id="manager" name="manager" maxlength="5" size="10" disabled></input>
-					</div>
-					</td>
-					<td>
-					<div id="racePosition">
-						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
-					</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td>
-					<div id="manager">
-						<input type="text" value="DIEGO" id="manager" name="manager" maxlength="5" size="10" disabled></input>
-					</div>
-					</td>
-					<td>
-					<div id="racePosition">
-						<input type="text" value="" id="racePosition" name="racePosition" maxlength="5" size="10"></input>
-					</div>
-					</td>
-				</tr>
-				
+				</c:forEach>
 			</table>
 		</div>
 	</div>

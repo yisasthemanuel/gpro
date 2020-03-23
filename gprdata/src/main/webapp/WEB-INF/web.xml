@@ -39,11 +39,6 @@
         <listener-class>org.springframework.web.util.WebAppRootListener</listener-class>
     </listener>
     
-    <!-- Listener para configurar log4j -->
-    <listener>
-        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
-    </listener>
-    
     <!-- Para arrancar el Context Loader Listener -->
     <listener>
     	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
