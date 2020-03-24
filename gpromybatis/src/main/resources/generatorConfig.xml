@@ -19,6 +19,11 @@
   	<!-- Serializable model -->
     <plugin type="org.mybatis.generator.plugins.SerializablePlugin">
     </plugin>
+    
+  	<!-- toString plugin -->
+    <plugin type="org.mybatis.generator.plugins.ToStringPlugin">
+    	<property name="useToStringFromRoot " value="true"/>
+    </plugin>    
 	
     <jdbcConnection driverClass="${mybatis.generator.jdbcDriver}"
         connectionURL="${mybatis.generator.connectionURL}"

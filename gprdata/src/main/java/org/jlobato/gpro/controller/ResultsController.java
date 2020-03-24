@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.jlobato.gpro.dao.mybatis.facade.FachadaManager;
 import org.jlobato.gpro.dao.mybatis.facade.FachadaSeason;
 import org.jlobato.gpro.dao.mybatis.facade.FachadaTeam;
+import org.jlobato.gpro.dao.mybatis.model.Race;
 import org.jlobato.gpro.dao.mybatis.model.Season;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,38 +52,6 @@ public class ResultsController {
 	private static final Logger logger = LoggerFactory.getLogger(ResultsController.class);
 	
 
-	/**
-	 * 
-	 * @param request
-	 * @param session
-	 * @return
-	 */
-	@GetMapping(value = "/pre-results")
-	public ModelAndView results(HttpServletRequest request, HttpSession session)	{
-		logger.debug("ResultsController.results - begin");
-		
-		ModelAndView modelAndView = new ModelAndView();
-		//Modelo
-		//TODO Ahora mismo añadimos el equipo por defecto (GPR) pero esto será sensible al usuario
-		modelAndView.addObject("team", fachadaTeam.getDefaultTeam());
-		
-		//TODO Ahora añadimos todos los managers. Hay que añadir sólo los del equipo seleccionado
-		modelAndView.addObject("managersList", fachadaManager.getManagersList());
-		
-		//TODO Falta materializar los circuitos de cada carrera
-        modelAndView.addObject("racesList", fachadaSeason.getRaces(fachadaSeason.getCurrentSeason()));
-        
-        //TODO Falta obtener la temporada actual al cambiar el combo
-        modelAndView.addObject("seasonsList", fachadaSeason.getAvailableSeasons());
-        modelAndView.addObject("currentSeason", fachadaSeason.getCurrentSeason());
-        
-		//Vista
-		modelAndView.setViewName("/results/results");
-		
-		logger.debug("ResultsController.results - end");
-		return modelAndView;
-	}
-	
 	@GetMapping(value = "/allraces", produces = "application/json")
 	public @ResponseBody String allraces(HttpServletRequest request, HttpSession session, String codSeason)	{
 		logger.debug("ResultsController.getSeasonRaces - begin for season {}", request.getParameter("codSeason"));
@@ -110,11 +79,13 @@ public class ResultsController {
             current = fachadaSeason.getCurrentSeason();
         }
         
+        Race currentRace = fachadaSeason.getCurrentRace();
+        
         // Añadimos la lista de managers
-		modelAndView.addObject("managersList", fachadaManager.getManagers(fachadaTeam.getDefaultTeam(), fachadaSeason.getCurrentRace()));
+		modelAndView.addObject("managersList", fachadaManager.getManagers(fachadaTeam.getDefaultTeam(), currentRace));
         
         modelAndView.addObject("currentSeasonID", current.getIdSeason());
-        modelAndView.addObject("currentRace", fachadaSeason.getCurrentRace().getIdRace());
+        modelAndView.addObject("currentRace", currentRace.getIdRace());
         
 		//Vista
 		modelAndView.setViewName("/results/putresults");

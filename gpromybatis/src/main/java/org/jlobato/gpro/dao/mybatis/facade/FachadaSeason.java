@@ -2,7 +2,6 @@ package org.jlobato.gpro.dao.mybatis.facade;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,8 +17,8 @@ import org.jlobato.gpro.dao.mybatis.model.RaceExample;
 import org.jlobato.gpro.dao.mybatis.model.RaceKey;
 import org.jlobato.gpro.dao.mybatis.model.Season;
 import org.jlobato.gpro.dao.mybatis.model.SeasonExample;
-import org.jlobato.gpro.dao.mybatis.model.Track;
 import org.jlobato.gpro.dao.mybatis.model.SeasonExample.Criteria;
+import org.jlobato.gpro.dao.mybatis.model.Track;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -35,18 +34,26 @@ import org.springframework.transaction.annotation.Transactional;
  * @author JLOBATO
  *
  */
-@Service
+@Repository
 @Transactional
 public class FachadaSeason {
 	
+	private static final String SELECT_TRACKS = "select t.name_track, t.distance_track from race r left join track t on r.id_track = t.id_track where id_season = :season";
+
 	/**
 	 * 
 	 */
 	private static final Logger logger = LoggerFactory.getLogger(FachadaSeason.class);
 	
+	/**
+	 * 
+	 */
     @Autowired
     protected SeasonMapper seasonDAO;
     
+    /**
+     * 
+     */
     @Autowired
     protected RaceMapper raceDAO;
     
@@ -105,8 +112,7 @@ public class FachadaSeason {
      * @param start
      * @param end
      */
-    public void addSeason(short idSeason, int seasonNumber, String code, String name, Date start, Date end) {
-    	//TODO Hacer que este método devuelva el objeto season recién creado
+    public Season addSeason(short idSeason, int seasonNumber, String code, String name, Date start, Date end) {
     	Season newSeason = new Season();
     	newSeason.setIdSeason(idSeason);
     	newSeason.setSeasonNumber(seasonNumber);
@@ -116,7 +122,7 @@ public class FachadaSeason {
     	newSeason.setEndDate(end);
     	
     	addSeason(newSeason);
-    	
+    	return newSeason;
     }
     
     /**
@@ -204,6 +210,7 @@ public class FachadaSeason {
     	RaceExample example = new RaceExample();
     	org.jlobato.gpro.dao.mybatis.model.RaceExample.Criteria criteria = example.createCriteria();
     	criteria.andRaceDateLessThan(rightNow);
+    	criteria.andIdSeasonEqualTo(getCurrentSeason().getIdSeason());
     	example.setOrderByClause("race_date desc");
     
     	List<Race> current = raceDAO.selectByExample(example);
@@ -232,6 +239,12 @@ public class FachadaSeason {
     	return result;
     }
     
+    /**
+     * 
+     * @param codSeason
+     * @param codRace
+     * @return
+     */
     public Race getRace(int codSeason, int codRace) {
     	Race result = null;
     	RaceExample example = new RaceExample();
@@ -284,22 +297,23 @@ public class FachadaSeason {
      * @return
      */
     public List<Map<String, String>> getTracks(Season season) {
-        logger.debug("Se recuperan los circuitos de la temporada " + season.getNameSeason());
+        logger.debug("Se recuperan los circuitos de la temporada {}", season.getNameSeason());
         
-        List<Map<String, String>> articulos = new ArrayList<Map<String, String>>();
+        List<Map<String, String>> articulos;
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
 
         mapSqlParameterSource.addValue("season", season.getIdSeason());
 
-        articulos = namedParameterJdbcTemplate.query("select t.name_track, t.distance_track from race r left join track t on r.id_track = t.id_track where id_season = :season",
-        		mapSqlParameterSource, new RowMapper<Map<String, String>>() {
-            public Map<String, String> mapRow(ResultSet rs, int rowNum) throws SQLException {
-                Map<String, String> tracks = new HashMap<String, String>();
-                tracks.put("track", rs.getString("name_track"));
-                tracks.put("distance", rs.getString("distance_track"));
+        articulos = namedParameterJdbcTemplate.query(SELECT_TRACKS,
+        		mapSqlParameterSource,
+        		new RowMapper<Map<String, String>>() {
+            		public Map<String, String> mapRow(ResultSet rs, int rowNum) throws SQLException {
+            			Map<String, String> tracks = new HashMap<>();
+            			tracks.put("track", rs.getString("name_track"));
+            			tracks.put("distance", rs.getString("distance_track"));
 
-                return tracks;
-            }
+            			return tracks;
+            		}
         });
 
         return articulos;
@@ -310,12 +324,12 @@ public class FachadaSeason {
      * @param currentSeason
      * @param races
      */
-	public void updateSeasonCalendar(Season currentSeason, ArrayList<Race> races) {
+	public void updateSeasonCalendar(Season currentSeason, List<Race> races) {
 		//Primero vemos si es una temporada nueva, ya que en ese caso nos ahorramos muchas comprobaciones
 		boolean isNewSeason = getSeason(currentSeason.getSeasonNumber()) == null;
 		
 		if (isNewSeason) {
-			logger.info("Creando calendario de la temporada " + currentSeason.getSeasonNumber());
+			logger.info("Creando calendario de la temporada {}", currentSeason.getSeasonNumber());
 			//Creamos la nueva temporada
 			addSeason(currentSeason);
 			
@@ -329,7 +343,7 @@ public class FachadaSeason {
 		else {
 			//Sabemos que es una temporada existente. Se actualizarán datos
 			//TODO Actualización de los datos de una temporada
-			logger.info("Actualizando calendario de la temporada " + currentSeason.getSeasonNumber());
+			logger.info("Actualizando calendario de la temporada {}", currentSeason.getSeasonNumber());
 		}
 	}
 	

@@ -257,8 +257,8 @@ public class FachadaManager {
 		example.createCriteria()
 				.andIdManagerEqualTo(idManager)
 				.andIdSeasonEqualTo(idSeason);
-		List<ManagerHistory> records = managerHistoryDAO.selectByExample(example);
-		return records;
+		
+		return managerHistoryDAO.selectByExample(example);
 	}
 	
 	/**
@@ -348,7 +348,7 @@ public class FachadaManager {
      */
     public List<Manager> getManagers(Team team, Race race) {
         
-    	List<Manager> result = new ArrayList<>();
+    	
     	
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
 
@@ -356,7 +356,7 @@ public class FachadaManager {
         mapSqlParameterSource.addValue("season", race.getIdSeason());
         mapSqlParameterSource.addValue("race", race.getIdRace());
 
-        result = namedParameterJdbcTemplate.query(
+        return namedParameterJdbcTemplate.query(
         		SELECT_MANAGERS_RESULTS,
         		mapSqlParameterSource,
         		new RowMapper<Manager>() {
@@ -364,8 +364,6 @@ public class FachadaManager {
         				return managerDAO.selectByPrimaryKey(rs.getShort("id_manager"));
         			}
         		});
-
-        return result;
     }
 	
 	
