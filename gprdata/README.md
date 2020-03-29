@@ -8,6 +8,8 @@ docker run -d -e entorno=I -p 8080:8080 --name yisas-gprdata --rm yisasthemanuel
 
 Hay que quitar algunas dependencias que obligan a que el contexto de la aplicación se llame gprdata
 
+** Banner generado con la fuente alligator2 (https://devops.datenkollektiv.de/banner.txt/index.html)
+
 Lo siguente es genérico y hay que adaptarlo
 
 ## Introducción

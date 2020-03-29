@@ -3,7 +3,10 @@
 ### Ejecución de la imagen
 
 ```shell
-docker run -d -p 9080:8080 --name yisas-gproresults yisasthemanuel/gproresultsapi
+** Para que se tenga en cuenta la URI del Eureka
+docker run -d -e EUREKA_URI=http://host.docker.internal:8761/eureka -p 9080:8080 --name yisas-gproresults yisasthemanuel/gproresultsapi
+
+** Banner generado con la fuente alligator2 (https://devops.datenkollektiv.de/banner.txt/index.html)
 
 Hay que quitar algunas dependencias que obligan a que el contexto de la aplicación se llame gprdata
 
