@@ -56,7 +56,7 @@
 	<java.build.version>1.8</java.build.version>
 	<java.source.version>1.8</java.source.version>
 	<!-- Version POI -->
-  	<org.apache.poi.version>3.11</org.apache.poi.version>
+  	<org.apache.poi.version>4.1.2</org.apache.poi.version>
 	<!-- Version JSOUP -->
   	<org.jsoup.version>1.8.3</org.jsoup.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
